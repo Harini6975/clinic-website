@@ -1,0 +1,244 @@
+import {
+  Activity,
+  Phone,
+  MapPin,
+  Clock,
+  Navigation,
+  CalendarDays,
+  MessageCircle,
+  ShieldAlert,
+} from "lucide-react";
+import { Link } from "react-router-dom";
+import { useLanguage } from "./LanguageProvider";
+
+const clinicName = "Sri Riddhi Speciality Clinic";
+const clinicPhone = "+91 81220 73520";
+const emergencyPhone = "+91 98424 26363";
+const whatsappNumber = "919842426363";
+
+const clinicAddress =
+  "Door no: 893, Kairasi Nagar, Rajiv Gandhi Nagar Bus Stop, Vayalur Main Road, Natchikurichi, Tiruchirappalli - 620102";
+
+const mapsLink =
+  "https://www.google.com/maps/search/?api=1&query=" +
+  encodeURIComponent(clinicName + ", " + clinicAddress);
+
+export default function Footer() {
+  const { language } = useLanguage();
+  const isTamil = language === "ta";
+
+  return (
+    <footer className="bg-slate-950 text-white">
+      <div className="mx-auto max-w-7xl px-5 py-14 sm:px-8">
+        
+        {/* Main Columns Grid (3 columns) */}
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 mb-12">
+
+          {/* Column 1: Doctor and clinic information */}
+          <div>
+            <Link to="/" className="mb-4 flex items-center gap-3">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-tr from-cyan-600 to-cyan-400 text-slate-950 shadow-md">
+                <Activity size={26} />
+              </div>
+
+              <div>
+                <h2 className="text-lg font-bold leading-tight">
+                  Dr. M. Kalaivanan
+                </h2>
+                <p className="text-xs font-semibold text-cyan-400">
+                  {isTamil
+                    ? "எலும்பியல் மற்றும் மூட்டு மாற்று நிபுணர்"
+                    : "Orthopaedic & Joint Replacement Surgeon"}
+                </p>
+              </div>
+            </Link>
+
+            <h3 className="mb-2 font-semibold text-slate-200">
+              {clinicName}
+            </h3>
+
+            <p className="text-xs leading-relaxed text-slate-400 mb-4">
+              {isTamil
+                ? "ரோபோடிக் மூட்டு மாற்று சிகிச்சை, அதிநவீன எலும்பு முறிவு சிகிச்சை மற்றும் முதியோருக்கான இல்ல மருத்துவ சேவை வழங்குவதே எங்களின் குறிக்கோள்."
+                : "Dedicated to restoring pain-free mobility through computer-assisted robotic joint replacement, advanced fracture reconstruction, and doorstep senior diagnostics."}
+            </p>
+
+            <div className="flex items-center gap-3">
+              <a
+                href={`https://wa.me/${whatsappNumber}?text=Hello%20Dr.%20Kalaivanan,%20I%20would%20like%20to%20consult%20regarding%20joint%20care.`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-400 transition hover:bg-emerald-500/20"
+              >
+                <MessageCircle size={14} />
+                <span>WhatsApp</span>
+              </a>
+
+              <a
+                href={`tel:${clinicPhone.replace(/\s+/g, "")}`}
+                className="inline-flex items-center gap-1.5 rounded-lg border border-cyan-500/40 bg-cyan-500/10 px-3 py-1.5 text-xs font-semibold text-cyan-300 transition hover:bg-cyan-500/20"
+              >
+                <Phone size={13} />
+                <span>{isTamil ? "அழைக்க" : "Call"}</span>
+              </a>
+            </div>
+          </div>
+
+          {/* Column 2: Quick Links */}
+          <div>
+            <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-cyan-400">
+              {isTamil ? "முக்கிய இணைப்புகள்" : "Quick Links"}
+            </h3>
+
+            <ul className="space-y-2.5 text-sm text-slate-300">
+              <li>
+                <Link className="transition hover:text-cyan-300" to="/">
+                  {isTamil ? "முகப்பு" : "Home"}
+                </Link>
+              </li>
+
+              <li>
+                <Link className="transition hover:text-cyan-300" to="/about">
+                  {isTamil ? "மருத்துவரைப் பற்றி" : "About"}
+                </Link>
+              </li>
+
+              {/* Specialties points to /facilities */}
+              <li>
+                <Link className="transition hover:text-cyan-300" to="/facilities">
+                  {isTamil ? "சிகிச்சைகள்" : "Specialties"}
+                </Link>
+              </li>
+
+              {/* Services & Facilities points to /services */}
+              <li>
+                <Link className="transition hover:text-cyan-300" to="/services">
+                  {isTamil ? "வீட்டுப் பராமரிப்பு & சேவைகள்" : "Services & Facilities"}
+                </Link>
+              </li>
+
+              <li>
+                <Link className="transition hover:text-cyan-300" to="/blogs">
+                  {isTamil ? "மருத்துவக் கட்டுரைகள்" : "Blogs & Articles"}
+                </Link>
+              </li>
+
+              <li>
+                <Link className="transition hover:text-cyan-300" to="/patient-stories">
+                  {isTamil ? "நோயாளி சான்றுகள்" : "Testimonials"}
+                </Link>
+              </li>
+
+              <li>
+                <Link className="transition hover:text-cyan-300" to="/contact">
+                  {isTamil ? "தொடர்பு கொள்ள & முகவரி" : "Contact & Location"}
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 3: Contact & Emergency & Hours */}
+          <div>
+            <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-cyan-400">
+              {isTamil ? "தொடர்பு & நேரம்" : "Contact & Hours"}
+            </h3>
+
+            <div className="space-y-3 text-sm text-slate-300 mb-5">
+              <div className="flex items-start gap-3">
+                <Phone size={15} className="mt-1 shrink-0 text-cyan-400" />
+                <div>
+                  <p className="text-xs font-semibold text-slate-400">
+                    {isTamil ? "கிளினிக் தொலைபேசி" : "Clinic Appointments"}
+                  </p>
+                  <a href={`tel:${clinicPhone.replace(/\s+/g, "")}`} className="font-medium text-white transition hover:text-cyan-300">
+                    {clinicPhone}
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <ShieldAlert size={15} className="mt-1 shrink-0 text-red-400" />
+                <div>
+                  <p className="text-xs font-semibold text-slate-400">
+                    {isTamil ? "அவசர உதவி" : "24/7 Trauma Hotline"}
+                  </p>
+                  <a href={`tel:${emergencyPhone.replace(/\s+/g, "")}`} className="font-medium text-red-400 transition hover:text-red-300">
+                    {emergencyPhone}
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <Clock size={15} className="mt-1 shrink-0 text-cyan-400" />
+                <div>
+                  <p className="text-xs font-semibold text-slate-400">
+                    {isTamil ? "ஆலோசனை நேரம்" : "Consulting Hours"}
+                  </p>
+                  <p className="text-xs text-slate-300">Mon – Sat: 05:30 PM – 10:00 PM</p>
+                </div>
+              </div>
+            </div>
+
+            <Link
+              to="/appointment"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-cyan-500 py-2.5 text-xs font-bold text-slate-950 shadow-md transition hover:bg-cyan-400 active:scale-95"
+            >
+              <CalendarDays size={15} />
+              <span>{isTamil ? "முன்பதிவு செய்ய" : "Book an Appointment"}</span>
+            </Link>
+          </div>
+
+        </div>
+
+        {/* FULL-WIDTH LEFT-TO-RIGHT PINNED MAP SECTION */}
+        <div className="mb-10 rounded-2xl border border-slate-800 bg-slate-900 p-4 shadow-xl">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-3">
+            <div className="flex items-center gap-2">
+              <MapPin size={18} className="text-cyan-400" />
+              <h4 className="text-xs font-bold uppercase tracking-wider text-white">
+                {isTamil ? "ஸ்ரீ ரித்தி ஸ்பெஷாலிட்டி கிளினிக் அமைவிடம் (Trichy)" : "Sri Riddhi Speciality Clinic Location Map"}
+              </h4>
+            </div>
+            <a
+              href={mapsLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-cyan-300 transition hover:text-white"
+            >
+              <Navigation size={13} />
+              <span>{isTamil ? "பெரிய வரைபடத்தில் திறக்கவும்" : "Open in Google Maps"}</span>
+            </a>
+          </div>
+
+          <div className="overflow-hidden rounded-xl h-72 w-full bg-slate-950">
+            <iframe
+              title="Sri Riddhi Speciality Clinic Full Width Map"
+              src="https://maps.google.com/maps?q=Vayalur%20Main%20Road,%20Natchikurichi,%20Tiruchirappalli&t=&z=16&ie=UTF8&iwloc=&output=embed"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen=""
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+        </div>
+
+        {/* Disclaimer & Copyright */}
+        <div className="border-t border-slate-900 pt-6 text-center text-xs leading-relaxed text-slate-500">
+          <p className="mb-2">
+            {isTamil
+              ? "மருத்துவக் குறிப்பு: இந்த தளத்தில் உள்ள தகவல்கள் விழிப்புணர்வுக்காக மட்டுமே. மருத்துவ ஆலோசனைகளுக்கு மருத்துவரை நேரில் அணுகவும்."
+              : "Medical Disclaimer: Information provided on this website is for educational purposes and should not be used as a substitute for professional medical advice or diagnosis."}
+          </p>
+          <p>
+            © {new Date().getFullYear()} Dr. M. Kalaivanan — {clinicName}.
+            {isTamil
+              ? " அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை."
+              : " All rights reserved."}
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+}
