@@ -7,7 +7,7 @@ import {
   ShieldAlert,
 } from "lucide-react";
 import { useLanguage } from "../components/LanguageProvider";
-import SEO from "../components/SEO"; // <-- 1. Import the SEO component
+import SEO from "../components/SEO";
 
 export default function Appointment() {
   const { language } = useLanguage();
@@ -40,37 +40,14 @@ export default function Appointment() {
     setSuccess("");
     setError("");
 
-    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-    const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-    if (!supabaseUrl || !supabaseKey) {
-      setError(
-        t(
-          "Supabase is not configured. Add your project URL and publishable/anon key to .env.local.",
-          "Supabase அமைக்கப்படவில்லை. .env.local கோப்பில் உங்கள் Project URL மற்றும் publishable/anon key சேர்க்கவும்."
-        )
-      );
-      setLoading(false);
-      return;
-    }
-
     try {
-      const response = await fetch(
-        `${supabaseUrl}/rest/v1/doctor_appointment_requests`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            apikey: supabaseKey,
-            Authorization: `Bearer ${supabaseKey}`,
-            Prefer: "return=minimal",
-          },
-          body: JSON.stringify({
-            ...form,
-            status: "pending",
-          }),
-        }
-      );
+      const response = await fetch("http://localhost:5000/api/appointments", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
 
       if (!response.ok) {
         const details = await response.text();
@@ -108,8 +85,6 @@ export default function Appointment() {
 
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900">
-      
-      {/* 2. Add Dynamic SEO Meta Tags for Appointment Page */}
       <SEO 
         title="Book Appointment - Sri Riddhi Speciality Clinic" 
         description="Book your orthopedic consultation with Dr. M. Kalaivanan online or via WhatsApp for robotic joint replacements, trauma care, and home visits in Trichy." 
@@ -355,7 +330,7 @@ export default function Appointment() {
             <p className="mt-2 text-xs leading-relaxed text-red-900">
               {t(
                 "Do not use this online form for severe trauma, heavy bleeding, or acute accidents. Call our emergency trauma line directly at +91 98424 26363.",
-                "கடுமையான விபத்துகள் மற்றும் அவசர எலும்பு முறிவுகளுக்கு இந்தப் படிவத்தைப் பயன்படுத்த வேண்டாம். அவசர உதவிக்கு +91 98424 26363 எண்ணை அழைக்கவும்."
+                "கடுமையான விபத்துகள் மற்றும் அவசர எலும்பு முறிவுகளுக்கு இந்தப் பதவத்தைப் பயன்படுத்த வேண்டாம். அவசர உதவிக்கு +91 98424 26363 எண்ணை அழைக்கவும்."
               )}
             </p>
           </div>

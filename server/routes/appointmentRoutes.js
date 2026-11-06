@@ -1,10 +1,14 @@
-
 const express = require("express");
 const router = express.Router();
+const twilio = require("twilio");
+
+const client = twilio(
+  process.env.TWILIO_ACCOUNT_SID,
+  process.env.TWILIO_AUTH_TOKEN
+);
 
 function formatAppointment(item) {
   if (!item) return item;
-
   return {
     ...item,
     _id: String(item.id),
@@ -15,181 +19,74 @@ function formatAppointment(item) {
   };
 }
 
-const allowedStatuses = [
-  "Pending",
-  "Approved",
-  "Completed",
-  "Cancelled",
-];
-
-// GET all appointments
-router.get("/", async (req, res) => {
-  const supabase = req.app.locals.supabase;
-
-  const { data, error } = await supabase
-    .from("appointments")
-    .select("*")
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    return res.status(500).json({ message: error.message });
-  }
-
-  res.json(data.map(formatAppointment));
-});
-
-// GET one appointment
-router.get("/:id", async (req, res) => {
-  const supabase = req.app.locals.supabase;
-  const id = Number(req.params.id);
-
-  if (!Number.isInteger(id) || id < 1) {
-    return res.status(400).json({ message: "Invalid appointment ID" });
-  }
-
-  const { data, error } = await supabase
-    .from("appointments")
-    .select("*")
-    .eq("id", id)
-    .maybeSingle();
-
-  if (error) {
-    return res.status(500).json({ message: error.message });
-  }
-
-  if (!data) {
-    return res.status(404).json({ message: "Appointment not found" });
-  }
-
-  res.json(formatAppointment(data));
-});
-
-// CREATE appointment
 router.post("/", async (req, res) => {
   const supabase = req.app.locals.supabase;
   const {
+    patient_name,
     patientName,
-    email,
+    email = "",
     phone,
+    treatment,
     department,
     doctor = "",
+    preferred_date,
     appointmentDate,
+    preferred_time,
     appointmentTime = "",
     message = "",
   } = req.body;
 
+  const resolvedName = patientName || patient_name;
+  const resolvedDept = department || treatment;
+  const resolvedDate = appointmentDate || preferred_date;
+  const resolvedTime = appointmentTime || preferred_time || "";
+
   if (
-    !patientName?.trim() ||
-    !email?.trim() ||
+    !resolvedName?.trim() ||
     !phone?.trim() ||
-    !department?.trim() ||
-    !appointmentDate
+    !resolvedDept?.trim() ||
+    !resolvedDate
   ) {
     return res.status(400).json({
-      message: "Name, email, phone, department, and date are required",
+      message: "Name, phone, department/treatment, and date are required",
     });
   }
 
+  // 1. Save to Supabase using the official client
   const { data, error } = await supabase
     .from("appointments")
     .insert([{
-      patient_name: patientName.trim(),
-      email: email.trim().toLowerCase(),
+      patient_name: resolvedName.trim(),
+      email: email ? email.trim().toLowerCase() : "",
       phone: phone.trim(),
-      department: department.trim(),
+      department: resolvedDept.trim(),
       doctor,
-      appointment_date: appointmentDate,
-      appointment_time: appointmentTime,
+      appointment_date: resolvedDate,
+      appointment_time: resolvedTime,
       message,
     }])
     .select()
     .single();
 
   if (error) {
+    console.error("Supabase insert error:", error.message);
     return res.status(400).json({ message: error.message });
   }
 
-  res.status(201).json(formatAppointment(data));
-});
-
-// UPDATE appointment
-router.put("/:id", async (req, res) => {
-  const supabase = req.app.locals.supabase;
-  const id = Number(req.params.id);
-  const updates = {};
-
-  if (!Number.isInteger(id) || id < 1) {
-    return res.status(400).json({ message: "Invalid appointment ID" });
-  }
-
-  const fields = {
-    patientName: "patient_name",
-    email: "email",
-    phone: "phone",
-    department: "department",
-    doctor: "doctor",
-    appointmentDate: "appointment_date",
-    appointmentTime: "appointment_time",
-    message: "message",
-    status: "status",
-  };
-
-  for (const [input, column] of Object.entries(fields)) {
-    if (req.body[input] !== undefined) {
-      updates[column] = req.body[input];
+  // 2. Send SMS Notification to Doctor's Phone
+  try {
+    if (process.env.TWILIO_ACCOUNT_SID && process.env.DOCTOR_PHONE_NUMBER) {
+      await client.messages.create({
+        body: `🚨 New Appointment Alert!\nPatient: ${resolvedName} (${phone})\nDept: ${resolvedDept}\nDate: ${resolvedDate} at ${resolvedTime}\nCheck admin dashboard to manage.`,
+        from: process.env.TWILIO_PHONE_NUMBER,
+        to: process.env.DOCTOR_PHONE_NUMBER,
+      });
     }
+  } catch (smsError) {
+    console.error("Failed to send doctor SMS notification:", smsError.message);
   }
 
-  if (
-    updates.status !== undefined &&
-    !allowedStatuses.includes(updates.status)
-  ) {
-    return res.status(400).json({ message: "Invalid appointment status" });
-  }
-
-  const { data, error } = await supabase
-    .from("appointments")
-    .update(updates)
-    .eq("id", id)
-    .select()
-    .maybeSingle();
-
-  if (error) {
-    return res.status(400).json({ message: error.message });
-  }
-
-  if (!data) {
-    return res.status(404).json({ message: "Appointment not found" });
-  }
-
-  res.json(formatAppointment(data));
-});
-
-// DELETE appointment
-router.delete("/:id", async (req, res) => {
-  const supabase = req.app.locals.supabase;
-  const id = Number(req.params.id);
-
-  if (!Number.isInteger(id) || id < 1) {
-    return res.status(400).json({ message: "Invalid appointment ID" });
-  }
-
-  const { data, error } = await supabase
-    .from("appointments")
-    .delete()
-    .eq("id", id)
-    .select("id")
-    .maybeSingle();
-
-  if (error) {
-    return res.status(500).json({ message: error.message });
-  }
-
-  if (!data) {
-    return res.status(404).json({ message: "Appointment not found" });
-  }
-
-  res.json({ message: "Appointment deleted successfully" });
+  return res.status(201).json(formatAppointment(data));
 });
 
 module.exports = router;
