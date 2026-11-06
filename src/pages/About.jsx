@@ -24,7 +24,6 @@ export default function About() {
 
   const whatsappNumber = "919842426363";
 
-  // State to track which card's modal is currently open (null means closed)
   const [selectedSpecialty, setSelectedSpecialty] = useState(null);
 
   const qualifications = [
@@ -220,7 +219,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* Hi-Fi Graphical Core Specialties Grid with Modal Trigger */}
+      {/* Hi-Fi Graphical Core Specialities Grid with Modal Trigger */}
       <section className="relative isolate overflow-hidden bg-slate-50 px-5 py-20 sm:px-8 lg:py-28">
         <div 
           className="absolute inset-0 -z-10 opacity-[0.03]"

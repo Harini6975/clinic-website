@@ -12,14 +12,14 @@ export default function ServicesBackgroundSection() {
       ta: "ரோபோடிக் மூட்டு மாற்று அறுவை சிகிச்சை தேவையா?",
       desc: "Computer-guided sub-millimeter precision for total and partial knee & hip arthroplasty.",
       icon: Bone,
-      link: "/specialties",
+      link: "/specialities",
     },
     {
       title: "Need Expert Care for Trauma & Fractures?",
       ta: "எலும்பு முறிவு மற்றும் விபத்து சிகிச்சை தேவையா?",
       desc: "Round-the-clock emergency surgical care for complex fractures and accident trauma.",
       icon: ShieldCheck,
-      link: "/specialties",
+      link: "/specialities",
     },
     {
       title: "Searching for Doorstep Home Visits & X-Ray?",
@@ -34,7 +34,7 @@ export default function ServicesBackgroundSection() {
       ta: "முழங்கால் அல்லது தோள்பட்டை வலியால் அவதியா?",
       desc: "Minimally invasive arthroscopic surgery for sports injuries, ACL tears, and joint problems.",
       icon: Stethoscope,
-      link: "/specialties",
+      link: "/specialities",
     },
   ];
 

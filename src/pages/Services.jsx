@@ -84,7 +84,7 @@ export default function Services() {
       <SEO 
         title="Orthopedic Treatments & Robotic Joint Surgery Services" 
         description="Explore advanced robotic knee/hip replacements, trauma care, arthroscopy, and doorstep mobile digital X-Ray services by Dr. M. Kalaivanan in Trichy." 
-        path="/specialties" 
+        path="/specialities" 
       />
 
       {/* Page Header */}

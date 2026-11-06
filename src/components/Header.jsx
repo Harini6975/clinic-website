@@ -24,7 +24,7 @@ function Header() {
   const navItems = [
     { to: "/", en: "Home", ta: "முகப்பு" },
     { to: "/about", en: "About", ta: "மருத்துவர் பற்றி" },
-    { to: "/facilities", en: "Specialties", ta: "சிகிச்சைகள்" }, // Updated here
+    { to: "/facilities", en: "Specialities", ta: "சிகிச்சைகள்" },
     { to: "/services", en: "Services", ta: "வீட்டு பராமரிப்பு" },
     { to: "/blogs", en: "Blogs", ta: "கட்டுரைகள்" },
     { to: "/patient-stories", en: "Testimonials", ta: "சான்றுகள்" },
@@ -51,13 +51,13 @@ function Header() {
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1 text-slate-300">
               <MapPin size={13} className="text-cyan-400" />
-              <span>Sri Riddhi Specialty Clinic, Tiruchirappalli</span>
+              <span>{text("Sri Riddhi Specialty Clinic, Tiruchirappalli", "ஸ்ரீ ரித்தி ஸ்பெஷாலிட்டி கிளினிக், திருச்சிராப்பள்ளி")}</span>
             </span>
             <span className="hidden sm:inline-block text-slate-600">|</span>
             <span className="hidden sm:inline text-slate-300">
               {text(
                 "Robotic & Complex Joint Replacement",
-                "ரோபோடிக் மூட்டு மாற்று அறுவை சிகிச்சை"
+                "ரோபோடிக் மற்றும் சிக்கலான மூட்டு மாற்று அறுவை சிகிச்சை"
               )}
             </span>
           </div>
@@ -78,7 +78,7 @@ function Header() {
               className="flex items-center gap-1 font-semibold text-emerald-400 transition hover:text-emerald-300"
             >
               <MessageCircle size={13} />
-              <span className="hidden sm:inline">WhatsApp</span>
+              <span className="hidden sm:inline">{text("WhatsApp", "வாட்ஸ்அப்")}</span>
             </a>
           </div>
         </div>

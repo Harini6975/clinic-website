@@ -6,29 +6,33 @@ import { useLanguage } from "../components/LanguageProvider";
 
 function HomePage() {
   const { language } = useLanguage();
-  const text = (en, ta) => (language === "ta" ? ta : en);
+  const ta = language === "ta";
+  const t = (en, tamil) => (ta ? tamil : en);
 
   const services = [
     {
       title: "Looking for Robotic Joint Replacement?",
       ta: "ரோபோடிக் மூட்டு மாற்று அறுவை சிகிச்சை தேவையா?",
       desc: "Computer-guided sub-millimeter precision for total and partial knee & hip arthroplasty.",
+      descTa: "முழு மற்றும் பகுதி முழங்கால் & இடுப்பு மூட்டு மாற்று அறுவை சிகிச்சைக்கு கணினி வழிகாட்டுதலுடன் கூடிய துல்லியமான நுட்பம்.",
       icon: Bone,
-      link: "/specialties",
+      link: "/specialities",
       bgImage: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=600&q=80",
     },
     {
       title: "Need Expert Care for Trauma & Fractures?",
       ta: "எலும்பு முறிவு மற்றும் விபத்து சிகிச்சை தேவையா?",
       desc: "Round-the-clock emergency surgical care for complex fractures and accident trauma.",
+      descTa: "சிக்கலான எலும்பு முறிவுகள் மற்றும் விபத்து காயங்களுக்கான 24 மணி நேர அவசர அறுவை சிகிச்சை பராமரிப்பு.",
       icon: ShieldCheck,
-      link: "/specialties",
+      link: "/specialities",
       bgImage: "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=600&q=80",
     },
     {
       title: "Searching for Doorstep Home Visits & X-Ray?",
       ta: "வீட்டிற்கே வந்து எக்ஸ்-ரே எடுக்கும் சேவை தேவையா?",
       desc: "Portable low-radiation digital radiography and orthopedic care at your doorstep for elders.",
+      descTa: "முதியோர்களுக்காக குறைந்த கதிர்வீச்சு கொண்ட சிறிய எக்ஸ்-ரே மற்றும் எலும்பியல் பராமரிப்பு வீட்டிற்கே வந்து வழங்கப்படுகிறது.",
       icon: Home,
       link: "/facilities",
       bgImage: "https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?auto=format&fit=crop&w=600&q=80",
@@ -37,8 +41,9 @@ function HomePage() {
       title: "Suffering from Knee or Shoulder Pain?",
       ta: "முழங்கால் அல்லது தோள்பட்டை வலியால் அவதியா?",
       desc: "Minimally invasive arthroscopic surgery for sports injuries, ACL tears, and joint problems.",
+      descTa: "விளையாட்டு காயங்கள், தசைநார் கிழிசல் (ACL) மற்றும் மூட்டு பிரச்சினைகளுக்கான நவீன துளையிட்டு செய்யும் அறுவை சிகிச்சை.",
       icon: Stethoscope,
-      link: "/specialties",
+      link: "/specialities",
       bgImage: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=600&q=80",
     },
   ];
@@ -69,7 +74,7 @@ function HomePage() {
       titleEn: "Severe Knee Pain",
       titleTa: "கடுமையான முழங்கால் வலி",
       descEn: "Difficulty walking, climbing stairs, or persistent joint stiffness.",
-      descTa: "நடப்பதில் சிரமம், ஏறுவதில் வலி அல்லது தொடர்ச்சியான மூட்டு இறுக்கம்.",
+      descTa: "நடப்பதில் சிரமம், மாடிப்படி ஏறுவதில் வலி அல்லது தொடர்ச்சியான மூட்டு இறுக்கம்.",
       link: "/appointment",
       bgImage: "https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=600&q=80"
     },
@@ -87,7 +92,6 @@ function HomePage() {
       descEn: "Discomfort or restricted movement in the hip joint area.",
       descTa: "இடுப்பு மூட்டு பகுதியில் அசௌகரியம் அல்லது இயக்கக் கட்டுப்பாடு.",
       link: "/appointment",
-      // Verified working medical image for hip joint card
       bgImage: "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=600&q=80"
     },
     {
@@ -105,8 +109,8 @@ function HomePage() {
       
       {/* Dynamic SEO Meta Tags & Local Business Schema */}
       <SEO 
-        title="Best Orthopedic & Robotic Joint Replacement Surgeon in Trichy" 
-        description="Consult Dr. M. Kalaivanan at Sri Riddhi Speciality Clinic, Trichy for advanced robotic joint replacements, trauma care, and doorstep portable X-Ray services." 
+        title={t("Best Orthopedic & Robotic Joint Replacement Surgeon in Trichy", "திருச்சியில் சிறந்த எலும்பியல் மற்றும் ரோபோடிக் மூட்டு மாற்று அறுவை சிகிச்சை நிபுணர்")} 
+        description={t("Consult Dr. M. Kalaivanan at Sri Riddhi Speciality Clinic, Trichy for advanced robotic joint replacements, trauma care, and doorstep portable X-Ray services.", "திருச்சி ஸ்ரீ ரித்தி ஸ்பெஷாலிட்டி கிளினிக்கில் டாக்டர் எம். கலைவாணன் அவர்களிடம் நவீன ரோபோடிக் மூட்டு மாற்று அறுவை சிகிச்சைகள் மற்றும் அவசர சிகிச்சைகளுக்கு ஆலோசனை பெறுங்கள்.")} 
         path="/" 
       />
       
@@ -114,16 +118,16 @@ function HomePage() {
       <div className="bg-cyan-900 text-cyan-100 py-3 overflow-hidden border-y border-cyan-800 shadow-inner">
         <div className="flex w-[200%] animate-marquee whitespace-nowrap text-xs font-bold tracking-wider uppercase">
           <div className="flex items-center justify-around w-1/2">
-            <span className="mx-6 flex items-center gap-2">✦ 5,000+ Successful Surgeries</span>
-            <span className="mx-6 flex items-center gap-2">✦ Fellowship-Trained in Mumbai, Germany & Greece</span>
-            <span className="mx-6 flex items-center gap-2">✦ Doorstep Home Visit & Portable X-Ray</span>
-            <span className="mx-6 flex items-center gap-2">✦ Hindi & Tamil Consultations Available</span>
+            <span className="mx-6 flex items-center gap-2">✦ {t("5,000+ Successful Surgeries", "5,000+ வெற்றிகரமான அறுவை சிகிச்சைகள்")}</span>
+            <span className="mx-6 flex items-center gap-2">✦ {t("Fellowship-Trained in Mumbai, Greece & Germany", "மும்பை, கிரீஸ் மற்றும் ஜெர்மனியில் சிறப்பு பயிற்சி பெற்றவர்")}</span>
+            <span className="mx-6 flex items-center gap-2">✦ {t("Doorstep Home Visit & Portable X-Ray", "வீட்டிற்கே வந்து பார்க்கும் சேவை மற்றும் எக்ஸ்-ரே")}</span>
+            <span className="mx-6 flex items-center gap-2">✦ {t("Hindi & Tamil Consultations Available", "ஹிந்தி மற்றும் தமிழ் மொழிகளில் ஆலோசனை")}</span>
           </div>
           <div className="flex items-center justify-around w-1/2">
-            <span className="mx-6 flex items-center gap-2">✦ 5,000+ Successful Surgeries</span>
-            <span className="mx-6 flex items-center gap-2">✦ Fellowship-Trained in Mumbai, Germany & Greece</span>
-            <span className="mx-6 flex items-center gap-2">✦ Doorstep Home Visit & Portable X-Ray</span>
-            <span className="mx-6 flex items-center gap-2">✦ Hindi & Tamil Consultations Available</span>
+            <span className="mx-6 flex items-center gap-2">✦ {t("5,000+ Successful Surgeries", "5,000+ வெற்றிகரமான அறுவை சிகிச்சைகள்")}</span>
+            <span className="mx-6 flex items-center gap-2">✦ {t("Fellowship-Trained in Mumbai, Greece & Germany", "மும்பை, கிரீஸ் மற்றும் ஜெர்மனியில் சிறப்பு பயிற்சி பெற்றவர்")}</span>
+            <span className="mx-6 flex items-center gap-2">✦ {t("Doorstep Home Visit & Portable X-Ray", "வீட்டிற்கே வந்து பார்க்கும் சேவை மற்றும் எக்ஸ்-ரே")}</span>
+            <span className="mx-6 flex items-center gap-2">✦ {t("Hindi & Tamil Consultations Available", "ஹிந்தி மற்றும் தமிழ் மொழிகளில் ஆலோசனை")}</span>
           </div>
         </div>
       </div>
@@ -146,7 +150,7 @@ function HomePage() {
                     {stat.value}
                   </span>
                   <span className="mt-1 text-sm font-medium text-slate-300">
-                    {text(stat.labelEn, stat.labelTa)}
+                    {t(stat.labelEn, stat.labelTa)}
                   </span>
                 </div>
               );
@@ -161,13 +165,13 @@ function HomePage() {
           <div className="text-center max-w-3xl mx-auto mb-14">
             <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-cyan-100 text-cyan-800 text-xs font-bold uppercase tracking-wider">
               <AlertCircle size={14} />
-              {text("Symptom Guide", "அறிகுறிகள் வழிகாட்டி")}
+              {t("Symptom Guide", "அறிகுறிகள் வழிகாட்டி")}
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3 tracking-tight">
-              {text("Are You Experiencing These Issues?", "நீங்கள் இந்தப் பிரச்சினைகளால் பாதிக்கப்பட்டுள்ளீர்களா?")}
+              {t("Are You Experiencing These Issues?", "நீங்கள் இந்தப் பிரச்சினைகளால் பாதிக்கப்பட்டுள்ளீர்களா?")}
             </h2>
             <p className="mt-3 text-sm sm:text-base text-slate-600 leading-relaxed">
-              {text(
+              {t(
                 "Identify your discomfort and get expert guidance with Dr. M. Kalaivanan at Sri Riddhi Speciality Clinic.",
                 "உங்கள் அசௌகரியத்தை அடையாளம் கண்டு டாக்டர் எம். கலைவாணன் அவர்களிடம் தகுந்த சிகிச்சை பெறுங்கள்."
               )}
@@ -193,10 +197,10 @@ function HomePage() {
                     0{index + 1}
                   </div>
                   <h3 className="text-lg font-bold text-white tracking-tight">
-                    {text(item.titleEn, item.titleTa)}
+                    {t(item.titleEn, item.titleTa)}
                   </h3>
                   <p className="mt-2 text-xs sm:text-sm text-slate-300 leading-relaxed">
-                    {text(item.descEn, item.descTa)}
+                    {t(item.descEn, item.descTa)}
                   </p>
                 </div>
 
@@ -205,7 +209,7 @@ function HomePage() {
                     to={item.link} 
                     className="inline-flex items-center gap-1.5 text-xs font-bold text-cyan-300 hover:text-white transition-colors"
                   >
-                    <span>{text("Consult Specialist", "மருத்துவரை அணுக")}</span>
+                    <span>{t("Consult Specialist", "மருத்துவரை அணுக")}</span>
                     <ArrowRight size={14} />
                   </Link>
                 </div>
@@ -228,10 +232,10 @@ function HomePage() {
         <div className="relative z-10 max-w-7xl mx-auto">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <p className="text-cyan-200 text-xs sm:text-sm font-extrabold uppercase tracking-widest drop-shadow-md">
-              {text("Strong and Healthy Bones for Life", "வாழ்நாள் முழுவதும் வலுவான மற்றும் ஆரோக்கியமான எலும்புகள்")}
+              {t("Strong and Healthy Bones for Life", "வாழ்நாள் முழுவதும் வலுவான மற்றும் ஆரோக்கியமான எலும்புகள்")}
             </p>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mt-2 tracking-tight drop-shadow-lg">
-              {text("What Services We Provide ?", "நாங்கள் வழங்கும் சேவைகள்?")}
+              {t("What Services We Provide?", "நாங்கள் வழங்கும் சேவைகள்?")}
             </h2>
           </div>
 
@@ -252,21 +256,12 @@ function HomePage() {
                   </div>
 
                   <h3 className="text-lg font-black text-slate-900 text-center tracking-tight leading-snug">
-                    {text(item.title, item.ta)}
+                    {t(item.title, item.ta)}
                   </h3>
 
                   <p className="mt-3 text-xs sm:text-sm text-slate-700 text-center leading-relaxed font-semibold">
-                    {item.desc}
+                    {t(item.desc, item.descTa)}
                   </p>
-                </div>
-
-                <div className="relative z-10 mt-8 text-center">
-                  <Link 
-                    to={item.link} 
-                    className="inline-flex items-center justify-center w-full py-3 px-6 rounded-full bg-cyan-800 text-white text-xs font-bold tracking-wider uppercase shadow-md transition-all duration-300 hover:bg-cyan-900 hover:shadow-lg"
-                  >
-                    {text("Read More", "மேலும் அறிய")}
-                  </Link>
                 </div>
               </div>
             ))}

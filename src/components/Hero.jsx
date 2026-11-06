@@ -43,7 +43,8 @@ const slides = [
 function Hero() {
   const [active, setActive] = useState(0);
   const { language } = useLanguage();
-  const text = (en, ta) => (language === "ta" ? ta : en);
+  const ta = language === "ta";
+  const t = (en, tamil) => (ta ? tamil : en);
 
   const whatsappNumber = "919842426363";
 
@@ -93,13 +94,13 @@ function Hero() {
                 >
                   <img
                     src={slide.image}
-                    alt={slide.titleEn}
+                    alt={t(slide.titleEn, slide.titleTa)}
                     className="h-full w-full object-fill"
                   />
                   {/* Top tag overlay for consistency */}
                   <div className="absolute top-4 left-4 z-20 flex items-center gap-2 rounded-full bg-slate-950/85 px-3.5 py-1 text-xs font-semibold text-cyan-300 border border-slate-700 backdrop-blur-md shadow-md">
                     <span className="h-2 w-2 rounded-full bg-cyan-400" />
-                    {text(slide.tagEn, slide.tagTa)}
+                    {t(slide.tagEn, slide.tagTa)}
                   </div>
                 </div>
               ))}
@@ -107,7 +108,7 @@ function Hero() {
               <button
                 type="button"
                 onClick={previous}
-                aria-label="Previous Slide"
+                aria-label={t("Previous Slide", "முந்தைய ஸ்லைடு")}
                 className="absolute left-3 top-1/2 z-30 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-slate-900/80 text-white backdrop-blur-md transition hover:bg-cyan-600 hover:scale-110 shadow-md"
               >
                 <ArrowLeft size={16} />
@@ -115,7 +116,7 @@ function Hero() {
               <button
                 type="button"
                 onClick={next}
-                aria-label="Next Slide"
+                aria-label={t("Next Slide", "அடுத்த ஸ்லைடு")}
                 className="absolute right-3 top-1/2 z-30 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-slate-900/80 text-white backdrop-blur-md transition hover:bg-cyan-600 hover:scale-110 shadow-md"
               >
                 <ArrowRight size={16} />
@@ -126,7 +127,7 @@ function Hero() {
             <div className="relative group overflow-hidden rounded-3xl border border-slate-800 bg-slate-900 shadow-2xl flex flex-col h-[320px] sm:h-[380px] lg:h-[420px] transition-all duration-300 hover:border-cyan-500/50 hover:shadow-[0_0_30px_rgba(6,182,212,0.15)]">
               <div className="absolute top-4 left-4 z-20 flex items-center gap-2 rounded-full bg-slate-950/85 px-3.5 py-1 text-xs font-semibold text-cyan-300 border border-slate-700 backdrop-blur-md shadow-md">
                 <span className="h-2 w-2 rounded-full bg-red-500 animate-ping" />
-                {text("Specialist Interview", "சிறப்பு நேர்காணல்")}
+                {t("Specialist Interview", "சிறப்பு நேர்காணல்")}
               </div>
               <div className="relative flex-1 w-full bg-slate-950 overflow-hidden pt-14">
                 <iframe
@@ -151,11 +152,11 @@ function Hero() {
           <div className="animate-fade-in-up">
             <div className="inline-flex items-center gap-2 rounded-full border border-cyan-200 bg-cyan-50 px-3.5 py-1 text-xs font-semibold text-cyan-800 shadow-sm transition hover:bg-cyan-100">
               <Activity size={15} className="text-cyan-600 animate-pulse" />
-              {text("Sri Riddhi Speciality Clinic • Trichy", "ஸ்ரீ ரித்தி கிளினிக் • திருச்சி")}
+              {t("Sri Riddhi Speciality Clinic • Trichy", "ஸ்ரீ ரித்தி கிளினிக் • திருச்சி")}
             </div>
 
             <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-              {text("Advanced Orthopaedic & Joint Care", "நவீன எலும்பியல் மற்றும் மூட்டு சிகிச்சை")}
+              {t("Advanced Orthopaedic & Joint Care", "நவீன எலும்பியல் மற்றும் மூட்டு சிகிச்சை")}
               <span className="block bg-gradient-to-r from-cyan-700 to-sky-600 bg-clip-text text-transparent">
                 Dr. M. Kalaivanan
               </span>
@@ -163,11 +164,14 @@ function Hero() {
 
             <p className="mt-2 text-xs font-semibold uppercase tracking-wider text-slate-500 flex items-center gap-2">
               <span className="h-1.5 w-1.5 rounded-full bg-cyan-600" />
-              MBBS, MS (Ortho) | Fellowship in Joint Replacement & Trauma
+              {t(
+                "MBBS, MS (Ortho) | Fellowship in Joint Replacement & Trauma",
+                "MBBS, MS (ஆர்த்தோ) | மூட்டு மாற்று & விபத்து சிகிச்சை நிபுணர்"
+              )}
             </p>
 
             <p className="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">
-              {text(
+              {t(
                 "Specializing in precision robotic knee/hip replacements, trauma care, and doorstep home diagnostics across Tiruchirappalli.",
                 "ரோபோடிக் மூட்டு மாற்று அறுவை சிகிச்சை மற்றும் வீட்டிற்கே வந்து பரிசோதனை செய்யும் வசதி."
               )}
@@ -179,7 +183,7 @@ function Hero() {
                 className="group inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-700 to-cyan-800 px-5 py-3 text-xs sm:text-sm font-bold text-white shadow-lg shadow-cyan-900/20 transition-all duration-300 hover:scale-102 hover:shadow-cyan-900/30"
               >
                 <CalendarDays size={16} className="transition-transform group-hover:rotate-12" />
-                {text("Book Appointment", "முன்பதிவு செய்ய")}
+                {t("Book Appointment", "முன்பதிவு செய்ய")}
                 <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
               </Link>
 
@@ -190,7 +194,7 @@ function Hero() {
                 className="group inline-flex items-center gap-2 rounded-xl border border-emerald-500 bg-emerald-50 px-4 py-3 text-xs sm:text-sm font-bold text-emerald-800 shadow-sm transition-all duration-300 hover:scale-102 hover:bg-emerald-100"
               >
                 <MessageCircle size={16} className="text-emerald-600 transition-transform group-hover:scale-110" />
-                {text("WhatsApp Consult", "வாட்ஸ்அப் ஆலோசனை")}
+                {t("WhatsApp Consult", "வாட்ஸ்அப் ஆலோசனை")}
               </a>
             </div>
           </div>
@@ -208,10 +212,10 @@ function Hero() {
               <div className="absolute bottom-4 left-4 right-4 rounded-xl bg-white/95 p-3 shadow-md backdrop-blur-md border border-slate-100 transition-all duration-300 group-hover:border-cyan-300">
                 <div className="flex items-center gap-1.5 text-cyan-800 text-xs font-bold">
                   <Award size={15} className="animate-bounce" />
-                  <span>{text("Fellowship Trained Surgeon", "சிறப்பு பயிற்சி பெற்ற நிபுணர்")}</span>
+                  <span>{t("Fellowship Trained Surgeon", "சிறப்பு பயிற்சி பெற்ற நிபுணர்")}</span>
                 </div>
                 <p className="mt-0.5 text-xs text-slate-600">
-                  {text("Trained in Mumbai, Germany & Greece", "மும்பை, ஜெர்மனி & கிரீஸ் பயிற்சி")}
+                  {t("Trained in Mumbai, Germany & Greece", "மும்பை, ஜெர்மனி & கிரீஸ் பயிற்சி")}
                 </p>
               </div>
             </div>
@@ -224,9 +228,9 @@ function Hero() {
           <button 
             onClick={scrollToContent}
             className="inline-flex flex-col items-center text-xs font-semibold text-slate-400 transition hover:text-cyan-700 animate-bounce cursor-pointer"
-            aria-label="Scroll down to explore"
+            aria-label={t("Scroll down to explore", "மேலும் அறிய கீழே செல்லவும்")}
           >
-            <span>{text("Scroll to explore specialties & care", "மேலும் அறிய கீழே செல்லவும்")}</span>
+            <span>{t("Scroll to explore specialities & care", "மேலும் அறிய கீழே செல்லவும்")}</span>
             <ChevronDown size={18} className="mt-1" />
           </button>
         </div>

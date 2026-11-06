@@ -26,6 +26,7 @@ const mapsLink =
 export default function Footer() {
   const { language } = useLanguage();
   const isTamil = language === "ta";
+  const t = (en, tamil) => (isTamil ? tamil : en);
 
   return (
     <footer className="bg-slate-950 text-white">
@@ -46,9 +47,10 @@ export default function Footer() {
                   Dr. M. Kalaivanan
                 </h2>
                 <p className="text-xs font-semibold text-cyan-400">
-                  {isTamil
-                    ? "எலும்பியல் மற்றும் மூட்டு மாற்று நிபுணர்"
-                    : "Orthopaedic & Joint Replacement Surgeon"}
+                  {t(
+                    "Orthopaedic & Joint Replacement Surgeon",
+                    "எலும்பியல் மற்றும் மூட்டு மாற்று நிபுணர்"
+                  )}
                 </p>
               </div>
             </Link>
@@ -58,9 +60,10 @@ export default function Footer() {
             </h3>
 
             <p className="text-xs leading-relaxed text-slate-400 mb-4">
-              {isTamil
-                ? "ரோபோடிக் மூட்டு மாற்று சிகிச்சை, அதிநவீன எலும்பு முறிவு சிகிச்சை மற்றும் முதியோருக்கான இல்ல மருத்துவ சேவை வழங்குவதே எங்களின் குறிக்கோள்."
-                : "Dedicated to restoring pain-free mobility through computer-assisted robotic joint replacement, advanced fracture reconstruction, and doorstep senior diagnostics."}
+              {t(
+                "Dedicated to restoring pain-free mobility through computer-assisted robotic joint replacement, advanced fracture reconstruction, and doorstep senior diagnostics.",
+                "ரோபோடிக் மூட்டு மாற்று சிகிச்சை, அதிநவீன எலும்பு முறிவு சிகிச்சை மற்றும் முதியோருக்கான இல்ல மருத்துவ சேவை வழங்குவதே எங்களின் குறிக்கோள்."
+              )}
             </p>
 
             <div className="flex items-center gap-3">
@@ -71,7 +74,7 @@ export default function Footer() {
                 className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-400 transition hover:bg-emerald-500/20"
               >
                 <MessageCircle size={14} />
-                <span>WhatsApp</span>
+                <span>{t("WhatsApp", "வாட்ஸ்அப்")}</span>
               </a>
 
               <a
@@ -79,7 +82,7 @@ export default function Footer() {
                 className="inline-flex items-center gap-1.5 rounded-lg border border-cyan-500/40 bg-cyan-500/10 px-3 py-1.5 text-xs font-semibold text-cyan-300 transition hover:bg-cyan-500/20"
               >
                 <Phone size={13} />
-                <span>{isTamil ? "அழைக்க" : "Call"}</span>
+                <span>{t("Call", "அழைக்க")}</span>
               </a>
             </div>
           </div>
@@ -87,51 +90,49 @@ export default function Footer() {
           {/* Column 2: Quick Links */}
           <div>
             <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-cyan-400">
-              {isTamil ? "முக்கிய இணைப்புகள்" : "Quick Links"}
+              {t("Quick Links", "முக்கிய இணைப்புகள்")}
             </h3>
 
             <ul className="space-y-2.5 text-sm text-slate-300">
               <li>
                 <Link className="transition hover:text-cyan-300" to="/">
-                  {isTamil ? "முகப்பு" : "Home"}
+                  {t("Home", "முகப்பு")}
                 </Link>
               </li>
 
               <li>
                 <Link className="transition hover:text-cyan-300" to="/about">
-                  {isTamil ? "மருத்துவரைப் பற்றி" : "About"}
+                  {t("About", "மருத்துவரைப் பற்றி")}
                 </Link>
               </li>
 
-              {/* Specialties points to /facilities */}
               <li>
                 <Link className="transition hover:text-cyan-300" to="/facilities">
-                  {isTamil ? "சிகிச்சைகள்" : "Specialties"}
+                  {t("Specialities", "சிகிச்சைகள்")}
                 </Link>
               </li>
 
-              {/* Services & Facilities points to /services */}
               <li>
                 <Link className="transition hover:text-cyan-300" to="/services">
-                  {isTamil ? "வீட்டுப் பராமரிப்பு & சேவைகள்" : "Services & Facilities"}
+                  {t("Services & Facilities", "வீட்டுப் பராமரிப்பு & சேவைகள்")}
                 </Link>
               </li>
 
               <li>
                 <Link className="transition hover:text-cyan-300" to="/blogs">
-                  {isTamil ? "மருத்துவக் கட்டுரைகள்" : "Blogs & Articles"}
+                  {t("Blogs & Articles", "மருத்துவக் கட்டுரைகள்")}
                 </Link>
               </li>
 
               <li>
                 <Link className="transition hover:text-cyan-300" to="/patient-stories">
-                  {isTamil ? "நோயாளி சான்றுகள்" : "Testimonials"}
+                  {t("Testimonials", "நோயாளி சான்றுகள்")}
                 </Link>
               </li>
 
               <li>
                 <Link className="transition hover:text-cyan-300" to="/contact">
-                  {isTamil ? "தொடர்பு கொள்ள & முகவரி" : "Contact & Location"}
+                  {t("Contact & Location", "தொடர்பு கொள்ள & முகவரி")}
                 </Link>
               </li>
             </ul>
@@ -140,7 +141,7 @@ export default function Footer() {
           {/* Column 3: Contact & Emergency & Hours */}
           <div>
             <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-cyan-400">
-              {isTamil ? "தொடர்பு & நேரம்" : "Contact & Hours"}
+              {t("Contact & Hours", "தொடர்பு & நேரம்")}
             </h3>
 
             <div className="space-y-3 text-sm text-slate-300 mb-5">
@@ -148,7 +149,7 @@ export default function Footer() {
                 <Phone size={15} className="mt-1 shrink-0 text-cyan-400" />
                 <div>
                   <p className="text-xs font-semibold text-slate-400">
-                    {isTamil ? "கிளினிக் தொலைபேசி" : "Clinic Appointments"}
+                    {t("Clinic Appointments", "கிளினிக் தொலைபேசி")}
                   </p>
                   <a href={`tel:${clinicPhone.replace(/\s+/g, "")}`} className="font-medium text-white transition hover:text-cyan-300">
                     {clinicPhone}
@@ -160,7 +161,7 @@ export default function Footer() {
                 <ShieldAlert size={15} className="mt-1 shrink-0 text-red-400" />
                 <div>
                   <p className="text-xs font-semibold text-slate-400">
-                    {isTamil ? "அவசர உதவி" : "24/7 Trauma Hotline"}
+                    {t("24/7 Trauma Hotline", "அவசர உதவி")}
                   </p>
                   <a href={`tel:${emergencyPhone.replace(/\s+/g, "")}`} className="font-medium text-red-400 transition hover:text-red-300">
                     {emergencyPhone}
@@ -172,9 +173,11 @@ export default function Footer() {
                 <Clock size={15} className="mt-1 shrink-0 text-cyan-400" />
                 <div>
                   <p className="text-xs font-semibold text-slate-400">
-                    {isTamil ? "ஆலோசனை நேரம்" : "Consulting Hours"}
+                    {t("Consulting Hours", "ஆலோசனை நேரம்")}
                   </p>
-                  <p className="text-xs text-slate-300">Mon – Sat: 05:30 PM – 10:00 PM</p>
+                  <p className="text-xs text-slate-300">
+                    {t("Mon – Sat: 05:30 PM – 10:00 PM", "திங்கள் – சனி: மாலை 05:30 – இரவு 10:00")}
+                  </p>
                 </div>
               </div>
             </div>
@@ -184,7 +187,7 @@ export default function Footer() {
               className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-cyan-500 py-2.5 text-xs font-bold text-slate-950 shadow-md transition hover:bg-cyan-400 active:scale-95"
             >
               <CalendarDays size={15} />
-              <span>{isTamil ? "முன்பதிவு செய்ய" : "Book an Appointment"}</span>
+              <span>{t("Book an Appointment", "முன்பதிவு செய்ய")}</span>
             </Link>
           </div>
 
@@ -196,7 +199,7 @@ export default function Footer() {
             <div className="flex items-center gap-2">
               <MapPin size={18} className="text-cyan-400" />
               <h4 className="text-xs font-bold uppercase tracking-wider text-white">
-                {isTamil ? "ஸ்ரீ ரித்தி ஸ்பெஷாலிட்டி கிளினிக் அமைவிடம் (Trichy)" : "Sri Riddhi Speciality Clinic Location Map"}
+                {t("Sri Riddhi Speciality Clinic Location Map", "ஸ்ரீ ரித்தி ஸ்பெஷாலிட்டி கிளினிக் அமைவிடம் (Trichy)")}
               </h4>
             </div>
             <a
@@ -206,7 +209,7 @@ export default function Footer() {
               className="inline-flex items-center gap-1.5 text-xs font-semibold text-cyan-300 transition hover:text-white"
             >
               <Navigation size={13} />
-              <span>{isTamil ? "பெரிய வரைபடத்தில் திறக்கவும்" : "Open in Google Maps"}</span>
+              <span>{t("Open in Google Maps", "பெரிய வரைபடத்தில் திறக்கவும்")}</span>
             </a>
           </div>
 
@@ -227,15 +230,14 @@ export default function Footer() {
         {/* Disclaimer & Copyright */}
         <div className="border-t border-slate-900 pt-6 text-center text-xs leading-relaxed text-slate-500">
           <p className="mb-2">
-            {isTamil
-              ? "மருத்துவக் குறிப்பு: இந்த தளத்தில் உள்ள தகவல்கள் விழிப்புணர்வுக்காக மட்டுமே. மருத்துவ ஆலோசனைகளுக்கு மருத்துவரை நேரில் அணுகவும்."
-              : "Medical Disclaimer: Information provided on this website is for educational purposes and should not be used as a substitute for professional medical advice or diagnosis."}
+            {t(
+              "Medical Disclaimer: Information provided on this website is for educational purposes and should not be used as a substitute for professional medical advice or diagnosis.",
+              "மருத்துவக் குறிப்பு: இந்த தளத்தில் உள்ள தகவல்கள் விழிப்புணர்வுக்காக மட்டுமே. மருத்துவ ஆலோசனைகளுக்கு மருத்துவரை நேரில் அணுகவும்."
+            )}
           </p>
           <p>
             © {new Date().getFullYear()} Dr. M. Kalaivanan — {clinicName}.
-            {isTamil
-              ? " அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை."
-              : " All rights reserved."}
+            {t(" All rights reserved.", " அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.")}
           </p>
         </div>
       </div>
