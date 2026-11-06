@@ -73,17 +73,23 @@ router.post("/", async (req, res) => {
     return res.status(400).json({ message: error.message });
   }
 
-  // 2. Send SMS Notification to Doctor's Phone
+  // 2. Send WhatsApp Notification to Doctor via Sandbox Content API
   try {
     if (process.env.TWILIO_ACCOUNT_SID && process.env.DOCTOR_PHONE_NUMBER) {
       await client.messages.create({
-        body: `🚨 New Appointment Alert!\nPatient: ${resolvedName} (${phone})\nDept: ${resolvedDept}\nDate: ${resolvedDate} at ${resolvedTime}\nCheck admin dashboard to manage.`,
-        from: process.env.TWILIO_PHONE_NUMBER,
-        to: process.env.DOCTOR_PHONE_NUMBER,
+        contentSid: "HXfe5ab5f00277942d4d4200328b4d403c",
+        contentVariables: JSON.stringify({
+          1: `Patient: ${resolvedName}`,
+          2: `Phone: ${phone}`,
+          3: `Department: ${resolvedDept}`,
+          4: `Date & Time: ${resolvedDate} at ${resolvedTime}`
+        }),
+        from: "whatsapp:+17372508034",
+        to: `whatsapp:${process.env.DOCTOR_PHONE_NUMBER}`,
       });
     }
   } catch (smsError) {
-    console.error("Failed to send doctor SMS notification:", smsError.message);
+    console.error("Failed to send doctor WhatsApp notification:", smsError.message);
   }
 
   return res.status(201).json(formatAppointment(data));
