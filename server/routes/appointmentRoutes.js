@@ -1,11 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const twilio = require("twilio");
-
-const client = twilio(
-  process.env.TWILIO_ACCOUNT_SID,
-  process.env.TWILIO_AUTH_TOKEN
-);
 
 function formatAppointment(item) {
   if (!item) return item;
@@ -28,7 +22,6 @@ router.post("/", async (req, res) => {
     phone,
     treatment,
     department,
-    doctor = "",
     preferred_date,
     appointmentDate,
     preferred_time,
@@ -72,9 +65,9 @@ router.post("/", async (req, res) => {
     }
   }
 
-  // 4. Validate Department / Treatment
+  // 4. Validate Reason for Visit / Treatment
   if (!resolvedDept || typeof resolvedDept !== "string" || !resolvedDept.trim()) {
-    errors.treatment = "Please select a valid primary concern or department.";
+    errors.treatment = "Please select a valid primary concern or reason for visit.";
   }
 
   // 5. Validate Preferred Date
@@ -102,15 +95,14 @@ router.post("/", async (req, res) => {
 
   const cleanPhone = phone.trim().replace(/\D/g, "");
 
-  // 7. Save Verified Data to Supabase
+  // 7. Save Verified Data to Supabase (without doctor column)
   const { data, error } = await supabase
     .from("appointments")
     .insert([{
       patient_name: resolvedName.trim(),
       email: trimmedEmail,
       phone: cleanPhone,
-      department: resolvedDept.trim(),
-      doctor: doctor ? doctor.trim() : "",
+      reason_for_visit: resolvedDept.trim(),
       appointment_date: resolvedDate,
       appointment_time: resolvedTime.trim(),
       message: message ? message.trim() : "",
@@ -123,19 +115,39 @@ router.post("/", async (req, res) => {
     return res.status(400).json({ errors: { form: error.message } });
   }
 
-  // 8. Send Notification via Twilio
+  // 8. Send Notification via Telegram
   try {
-    if (process.env.TWILIO_ACCOUNT_SID && process.env.DOCTOR_PHONE_NUMBER) {
-      const customMessage = `🚨 New Appointment Booked!\nPatient: ${resolvedName}\nPhone: ${cleanPhone}\nDepartment: ${resolvedDept}\nDate: ${resolvedDate} at ${resolvedTime}`;
+    const botToken = process.env.TELEGRAM_BOT_TOKEN;
+    const chatId = process.env.TELEGRAM_CHAT_ID;
 
-      await client.messages.create({
-        body: customMessage,
-        from: "whatsapp:+17372508034",
-        to: `whatsapp:${process.env.DOCTOR_PHONE_NUMBER}`,
+    if (botToken && chatId) {
+      const telegramText = `🔔 *New Appointment Alert*\n\n` +
+        `📅 *Date:* ${resolvedDate}\n` +
+        `⏰ *Time:* ${resolvedTime}\n` +
+        `👤 *Patient Name:* ${resolvedName.trim()}\n` +
+        `📞 *Phone:* ${cleanPhone}\n` +
+        `🩺 *Reason for Visit:* ${resolvedDept}\n` +
+        `📝 *Notes:* ${message ? message.trim() : "None"}`;
+
+      const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: telegramText,
+          parse_mode: "Markdown",
+        }),
       });
+
+      const result = await response.json();
+      if (!result.ok) {
+        console.error("Telegram API Error:", result.description);
+      } else {
+        console.log("Telegram notification sent successfully!");
+      }
     }
   } catch (err) {
-    console.error("Notification error:", err.message);
+    console.error("Telegram fetch failed:", err.message);
   }
 
   return res.status(201).json(formatAppointment(data));
