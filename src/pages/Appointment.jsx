@@ -28,9 +28,9 @@ export default function Appointment() {
   const [success, setSuccess] = useState("");
   const [fieldErrors, setFieldErrors] = useState({});
 
-  // Evening / Operating Time Slots (5:00 PM - 9:00 PM)
+  // Operating Time Slots (5:30 PM - 9:00 PM)
   const eveningSlots = [
-    "05:00 PM", "05:15 PM", "05:30 PM", "05:45 PM",
+    "05:30 PM", "05:45 PM",
     "06:00 PM", "06:15 PM", "06:30 PM", "06:45 PM",
     "07:00 PM", "07:15 PM", "07:30 PM", "07:45 PM",
     "08:00 PM", "08:15 PM", "08:30 PM", "08:45 PM", "09:00 PM"
@@ -88,7 +88,6 @@ export default function Appointment() {
     const { name, value } = event.target;
     setForm((prev) => {
       const updated = { ...prev, [name]: value };
-      // Reset preferred_time if the newly selected date makes current time invalid
       if (name === "preferred_date" && prev.preferred_time) {
         if (isTimeSlotPast(prev.preferred_time, value)) {
           updated.preferred_time = "";
@@ -344,7 +343,7 @@ export default function Appointment() {
                 <option value="">{t("Choose 15-min slot", "15 நிமிட நேரத்தைத் தேர்ந்தெடுக்கவும்")}</option>
 
                 {availableEveningSlots.length > 0 && (
-                  <optgroup label={t("Time Slots (5:00 PM - 9:00 PM)", "நேர ஸ்லாட்கள் (5:00 - 9:00)")}>
+                  <optgroup label={t("Time Slots (5:30 PM - 9:00 PM)", "நேர ஸ்லாட்கள் (5:30 - 9:00)")}>
                     {availableEveningSlots.map((slot) => (
                       <option key={slot} value={slot}>{slot}</option>
                     ))}
