@@ -61,7 +61,7 @@ cron.schedule("10 17 * * *", async () => {
     const { data: appointments, error } = await supabase
       .from("appointments")
       .select("*")
-      .eq("preferred_date", targetDate);
+      .eq("appointment_date", targetDate);
 
     if (error) {
       console.error("Cron job error fetching appointments:", error);
@@ -73,13 +73,14 @@ cron.schedule("10 17 * * *", async () => {
       return;
     }
 
-    let summaryText = `📋 *Today's Appointment Summary (5:30 PM - 9:00 PM session)*\n📅 *Date:* ${targetDate}\n*Total Bookings:* ${appointments.length}\n\n`;
+    let summaryText = `📋 Today's Appointment Summary (5:30 PM - 9:00 PM session)\n📅 Date: ${targetDate}\nTotal Bookings: ${appointments.length}\n\n`;
 
     appointments.forEach((appt, index) => {
-      summaryText += `${index + 1}. *Time:* ${appt.preferred_time}\n` +
-                     `   *Patient:* ${appt.patient_name}\n` +
-                     `   *Phone:* ${appt.phone}\n` +
-                     `   *Concern:* ${appt.treatment}\n\n`;
+      const concern = appt.reason_for_visit || appt.treatment || "General Consultation";
+      summaryText += `${index + 1}. Time: ${appt.appointment_time}\n` +
+                     `   Patient: ${appt.patient_name}\n` +
+                     `   Phone: ${appt.phone}\n` +
+                     `   Concern: ${concern}\n\n`;
     });
 
     const botToken = process.env.TELEGRAM_BOT_TOKEN;
@@ -92,14 +93,14 @@ cron.schedule("10 17 * * *", async () => {
         body: JSON.stringify({
           chat_id: chatId,
           text: summaryText,
-          parse_mode: "Markdown",
         }),
       });
 
       if (response.ok) {
         console.log("Today's appointment summary successfully sent to Dr. Kalaivanan via Telegram!");
       } else {
-        console.error("Failed to send Telegram summary.");
+        const errData = await response.json();
+        console.error("Failed to send Telegram summary:", errData);
       }
     }
   } catch (err) {
@@ -107,7 +108,7 @@ cron.schedule("10 17 * * *", async () => {
   }
 });
 
-// Manual trigger endpoint to test summary instantly anytime via browser/Postman
+// Manual trigger endpoint to test summary instantly anytime via browser
 app.get("/api/test-summary", async (req, res) => {
   try {
     const today = new Date();
@@ -116,7 +117,7 @@ app.get("/api/test-summary", async (req, res) => {
     const { data: appointments, error } = await supabase
       .from("appointments")
       .select("*")
-      .eq("preferred_date", targetDate);
+      .eq("appointment_date", targetDate);
 
     if (error) {
       return res.status(500).json({ status: "error", message: error.message });
@@ -126,13 +127,14 @@ app.get("/api/test-summary", async (req, res) => {
       return res.json({ status: "OK", message: `No appointments found for today (${targetDate}).` });
     }
 
-    let summaryText = `📋 *Today's Appointment Summary (5:30 PM - 9:00 PM session)*\n📅 *Date:* ${targetDate}\n*Total Bookings:* ${appointments.length}\n\n`;
+    let summaryText = `📋 Today's Appointment Summary (5:30 PM - 9:00 PM session)\n📅 Date: ${targetDate}\nTotal Bookings: ${appointments.length}\n\n`;
 
     appointments.forEach((appt, index) => {
-      summaryText += `${index + 1}. *Time:* ${appt.preferred_time}\n` +
-                     `   *Patient:* ${appt.patient_name}\n` +
-                     `   *Phone:* ${appt.phone}\n` +
-                     `   *Concern:* ${appt.treatment}\n\n`;
+      const concern = appt.reason_for_visit || appt.treatment || "General Consultation";
+      summaryText += `${index + 1}. Time: ${appt.appointment_time}\n` +
+                     `   Patient: ${appt.patient_name}\n` +
+                     `   Phone: ${appt.phone}\n` +
+                     `   Concern: ${concern}\n\n`;
     });
 
     const botToken = process.env.TELEGRAM_BOT_TOKEN;
@@ -145,16 +147,18 @@ app.get("/api/test-summary", async (req, res) => {
         body: JSON.stringify({
           chat_id: chatId,
           text: summaryText,
-          parse_mode: "Markdown",
         }),
       });
 
       if (response.ok) {
         return res.json({ status: "OK", message: "Summary sent to Telegram successfully!" });
+      } else {
+        const errData = await response.json();
+        return res.status(500).json({ status: "error", telegramError: errData });
       }
     }
 
-    res.status(500).json({ status: "error", message: "Failed to dispatch Telegram message." });
+    res.status(500).json({ status: "error", message: "Missing bot token or chat ID in environment variables." });
   } catch (err) {
     res.status(500).json({ status: "error", message: err.message });
   }
