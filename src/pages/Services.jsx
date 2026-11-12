@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../components/LanguageProvider";
-import SEO from "../components/SEO"; // <-- 1. Import the SEO component
+import SEO from "../components/SEO";
 
 export default function Services() {
   const { language } = useLanguage();
@@ -79,18 +79,25 @@ export default function Services() {
 
   return (
     <main className="bg-white text-slate-900">
-      
-      {/* 2. Add Dynamic SEO Meta Tags for Services Page */}
       <SEO 
         title="Orthopedic Treatments & Robotic Joint Surgery Services" 
         description="Explore advanced robotic knee/hip replacements, trauma care, arthroscopy, and doorstep mobile digital X-Ray services by Dr. M. Kalaivanan in Trichy." 
         path="/specialities" 
       />
 
-      {/* Page Header */}
-      <section className="bg-slate-950 px-5 py-16 text-white sm:px-8 lg:py-20">
-        <div className="mx-auto max-w-7xl">
-          <p className="inline-block rounded-full bg-cyan-400/10 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-cyan-300">
+      {/* Page Header with Background Image and Dark Overlay */}
+      <section className="relative bg-slate-950 px-5 py-20 text-white sm:px-8 lg:py-24 overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=2000" 
+            alt="Clinic Infrastructure" 
+            className="h-full w-full object-cover opacity-25"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/70" />
+        </div>
+
+        <div className="relative z-10 mx-auto max-w-7xl">
+          <p className="inline-block rounded-full bg-cyan-400/10 border border-cyan-400/20 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-cyan-300">
             {t("Orthopaedic Services & Surgeries", "எலும்பியல் சிகிச்சைகள் மற்றும் அறுவை சிகிச்சைகள்")}
           </p>
 

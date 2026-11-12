@@ -28,27 +28,77 @@ export default function Appointment() {
   const [success, setSuccess] = useState("");
   const [fieldErrors, setFieldErrors] = useState({});
 
-  // Dynamic time slots including morning (up to 1:15 PM), evening, and night
-  const morningSlots = [
-    "10:00 AM", "10:15 AM", "10:30 AM", "10:45 AM",
-    "11:00 AM", "11:15 AM", "11:30 AM", "11:45 AM",
-    "12:00 PM", "12:15 PM", "12:30 PM", "12:45 PM",
-    "01:00 PM", "01:15 PM"
-  ];
-
+  // Evening / Operating Time Slots (5:00 PM - 9:00 PM)
   const eveningSlots = [
+    "05:00 PM", "05:15 PM", "05:30 PM", "05:45 PM",
     "06:00 PM", "06:15 PM", "06:30 PM", "06:45 PM",
-    "07:00 PM", "07:15 PM", "07:30 PM", "07:45 PM", "08:00 PM"
+    "07:00 PM", "07:15 PM", "07:30 PM", "07:45 PM",
+    "08:00 PM", "08:15 PM", "08:30 PM", "08:45 PM", "09:00 PM"
   ];
 
-  const nightSlots = [
-    "08:15 PM", "08:30 PM", "08:45 PM", "09:00 PM", "09:15 PM", "09:30 PM", "09:45 PM", "10:00 PM"
-  ];
+  // Helper function to check if a specific slot time has already passed for today
+  const isTimeSlotPast = (timeStr, selectedDateStr) => {
+    if (!selectedDateStr) return false;
+    
+    const today = new Date();
+    const [y, m, d] = selectedDateStr.split("-").map(Number);
+    const selectedDay = new Date(y, m - 1, d);
+    selectedDay.setHours(0, 0, 0, 0);
+    
+    const todayDateOnly = new Date();
+    todayDateOnly.setHours(0, 0, 0, 0);
+
+    // If selected date is in the future, no time is past
+    if (selectedDay > todayDateOnly) return false;
+    
+    // If selected date is today, compare exact hours/minutes
+    if (selectedDay.getTime() === todayDateOnly.getTime()) {
+      let hours = 0;
+      let minutes = 0;
+      const is12Hour = /AM|PM/i.test(timeStr);
+      
+      if (is12Hour) {
+        const parts = timeStr.trim().split(/\s+/);
+        const [h, min] = parts[0].split(":").map(Number);
+        const modifier = parts[1];
+        let hrs = h;
+        if (modifier && modifier.toUpperCase() === "PM" && hrs < 12) hrs += 12;
+        if (modifier && modifier.toUpperCase() === "AM" && hrs === 12) hrs = 0;
+        hours = hrs;
+        minutes = min || 0;
+      } else {
+        const parts = timeStr.trim().split(":");
+        hours = parseInt(parts[0], 10) || 0;
+        minutes = parseInt(parts[1], 10) || 0;
+      }
+      
+      const slotTime = new Date(y, m - 1, d, hours, minutes, 0, 0);
+      return slotTime <= today;
+    }
+    
+    return false;
+  };
+
+  // Filter available slots dynamically based on form.preferred_date
+  const availableEveningSlots = eveningSlots.filter(
+    (slot) => !isTimeSlotPast(slot, form.preferred_date)
+  );
 
   function handleChange(event) {
-    setForm({ ...form, [event.target.name]: event.target.value });
-    if (fieldErrors[event.target.name]) {
-      setFieldErrors({ ...fieldErrors, [event.target.name]: "" });
+    const { name, value } = event.target;
+    setForm((prev) => {
+      const updated = { ...prev, [name]: value };
+      // Reset preferred_time if the newly selected date makes current time invalid
+      if (name === "preferred_date" && prev.preferred_time) {
+        if (isTimeSlotPast(prev.preferred_time, value)) {
+          updated.preferred_time = "";
+        }
+      }
+      return updated;
+    });
+
+    if (fieldErrors[name]) {
+      setFieldErrors({ ...fieldErrors, [name]: "" });
     }
   }
 
@@ -292,21 +342,14 @@ export default function Appointment() {
                 }`}
               >
                 <option value="">{t("Choose 15-min slot", "15 நிமிட நேரத்தைத் தேர்ந்தெடுக்கவும்")}</option>
-                <optgroup label={t("Morning Slots (10:00 AM - 1:15 PM)", "காலை நேர ஸ்லாட்கள் (10:00 - 1:15)")}>
-                  {morningSlots.map((slot) => (
-                    <option key={slot} value={slot}>{slot}</option>
-                  ))}
-                </optgroup>
-                <optgroup label={t("Evening Slots (6:00 PM - 8:00 PM)", "மாலை நேர ஸ்லாட்கள் (6:00 - 8:00)")}>
-                  {eveningSlots.map((slot) => (
-                    <option key={slot} value={slot}>{slot}</option>
-                  ))}
-                </optgroup>
-                <optgroup label={t("Night Slots (8:15 PM - 10:00 PM)", "இரவு நேர ஸ்லாட்கள் (8:15 - 10:00)")}>
-                  {nightSlots.map((slot) => (
-                    <option key={slot} value={slot}>{slot}</option>
-                  ))}
-                </optgroup>
+
+                {availableEveningSlots.length > 0 && (
+                  <optgroup label={t("Time Slots (5:00 PM - 9:00 PM)", "நேர ஸ்லாட்கள் (5:00 - 9:00)")}>
+                    {availableEveningSlots.map((slot) => (
+                      <option key={slot} value={slot}>{slot}</option>
+                    ))}
+                  </optgroup>
+                )}
               </select>
               {fieldErrors.preferred_time && (
                 <span className="mt-1 block text-xs font-semibold text-red-600">

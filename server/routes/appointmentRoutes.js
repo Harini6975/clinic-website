@@ -70,17 +70,58 @@ router.post("/", async (req, res) => {
     errors.treatment = "Please select a valid primary concern or reason for visit.";
   }
 
-  // 5. Validate Preferred Date
+  // 5. Validate Preferred Date & Past Date/Time Blocks
   if (!resolvedDate) {
     errors.preferred_date = "Preferred date is required.";
   } else {
-    const parsedDate = new Date(resolvedDate);
-    if (isNaN(parsedDate.getTime())) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // Safely parse YYYY-MM-DD into local date components
+    const [y, m, d] = resolvedDate.split("-").map(Number);
+    const appointmentDay = new Date(y, m - 1, d);
+    appointmentDay.setHours(0, 0, 0, 0);
+
+    if (isNaN(appointmentDay.getTime())) {
       errors.preferred_date = "Please enter a valid calendar date.";
+    } else if (appointmentDay < today) {
+      errors.preferred_date = "You cannot book an appointment for a past date.";
+    } else if (appointmentDay.getTime() === today.getTime() && resolvedTime) {
+      // Check if the selected time slot has already passed for today
+      try {
+        const now = new Date();
+        const timeStr = resolvedTime.trim();
+        let hours = 0;
+        let minutes = 0;
+
+        const is12Hour = /AM|PM/i.test(timeStr);
+        if (is12Hour) {
+          const parts = timeStr.split(/\s+/);
+          const [h, min] = parts[0].split(":").map(Number);
+          const modifier = parts[1];
+          let hrs = h;
+          if (modifier && modifier.toUpperCase() === "PM" && hrs < 12) hrs += 12;
+          if (modifier && modifier.toUpperCase() === "AM" && hrs === 12) hrs = 0;
+          hours = hrs;
+          minutes = min || 0;
+        } else {
+          const parts = timeStr.split(":");
+          hours = parseInt(parts[0], 10) || 0;
+          minutes = parseInt(parts[1], 10) || 0;
+        }
+
+        const appointmentDateTime = new Date(y, m - 1, d, hours, minutes, 0, 0);
+
+        if (appointmentDateTime <= now) {
+          errors.preferred_time = "You cannot select a time slot that has already passed for today.";
+        }
+      } catch (err) {
+        console.error("Time validation error:", err.message);
+      }
     }
   }
 
-  // 6. Validate Preferred Time Slot
+  // 6. Validate Preferred Time Slot Existence
   if (!resolvedTime || typeof resolvedTime !== "string" || !resolvedTime.trim()) {
     errors.preferred_time = "Please select a valid time slot.";
   }
@@ -95,7 +136,7 @@ router.post("/", async (req, res) => {
 
   const cleanPhone = phone.trim().replace(/\D/g, "");
 
-  // 7. Save Verified Data to Supabase (without doctor column)
+  // 7. Save Verified Data to Supabase
   const { data, error } = await supabase
     .from("appointments")
     .insert([{

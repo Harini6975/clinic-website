@@ -1,4 +1,3 @@
-
 import {
   BookOpen,
   Video,
@@ -65,9 +64,19 @@ export default function Departments() {
 
   return (
     <main className="min-h-screen bg-white text-slate-900">
-      <section className="bg-slate-50 px-4 py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl text-center">
-          <span className="inline-flex items-center gap-2 rounded-full bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700">
+      {/* Hero Section with Background Image and Dark Overlay */}
+      <section className="relative bg-slate-950 px-4 py-20 text-white sm:py-24 overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=2000" 
+            alt="Clinic Infrastructure" 
+            className="h-full w-full object-cover opacity-25"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/70" />
+        </div>
+
+        <div className="relative z-10 mx-auto max-w-7xl text-center">
+          <span className="inline-flex items-center gap-2 rounded-full bg-cyan-400/10 border border-cyan-400/20 px-4 py-2 text-sm font-semibold text-cyan-300">
             <HeartPulse size={18} />
             {isTamil ? "நோயாளர் கல்வி" : "Patient Education"}
           </span>
@@ -78,7 +87,7 @@ export default function Departments() {
               : "Orthopaedic Health Resources"}
           </h1>
 
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">
+          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-300 sm:text-lg">
             {isTamil
               ? "எலும்பு, மூட்டு மற்றும் காயப் பராமரிப்பு பற்றிய கல்வி வளங்களை ஆராயுங்கள்."
               : "Explore educational resources about bone health, joints, injuries and orthopaedic care."}

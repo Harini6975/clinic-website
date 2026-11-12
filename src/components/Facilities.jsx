@@ -6,7 +6,6 @@ import {
   Syringe,
   FileCheck2,
   PhoneCall,
-  CalendarDays,
   ArrowRight,
   MessageCircle,
 } from "lucide-react";
@@ -70,7 +69,7 @@ function Facilities() {
       titleEn: "Day-Care Joint Injection Therapy",
       titleTa: "மூட்டு ஊசி சிகிச்சை (PRP & Visco)",
       descriptionEn:
-        "Targeted non-surgical cartilage nourishment, viscosupplementation, and PRP injections for early knee arthritis.",
+        "Targeted non-surgical cartilage nourishment, viscosupplementation injections, and PRP injections for early knee arthritis.",
       descriptionTa:
         "ஆரம்ப கட்ட மூட்டுத் தேய்மானத்திற்கு நவீன உயவு ஊசிகள் மற்றும் பிஆர்பி (PRP) சிகிச்சை முறைகள்.",
       highlightEn: "Non-Surgical",
@@ -90,142 +89,145 @@ function Facilities() {
   ];
 
   return (
-    <section className="bg-white py-16 sm:py-24">
-      <div className="mx-auto max-w-7xl px-5 sm:px-6">
+    <main className="min-h-screen bg-white text-slate-900">
+      {/* Hero Section with Background Image and Dark Overlay */}
+      <section className="relative bg-slate-950 px-5 py-20 text-white sm:px-8 sm:py-24 overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=2000" 
+            alt="Clinic Infrastructure" 
+            className="h-full w-full object-cover opacity-25"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/70" />
+        </div>
 
-        {/* Heading */}
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div className="relative z-10 mx-auto max-w-7xl">
           <div className="max-w-2xl">
-            <p className="inline-flex items-center gap-1.5 rounded-full border border-cyan-200 bg-cyan-50 px-3 py-1 text-xs font-bold uppercase tracking-wider text-cyan-800">
+            <p className="inline-flex items-center gap-1.5 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-cyan-300">
               {text("Patient-Centred Infrastructure", "நோயாளி நலன் சார்ந்த நவீன வசதிகள்")}
             </p>
 
-            <h2 className="mt-3 text-3xl font-extrabold leading-tight text-slate-900 sm:text-4xl">
+            <h1 className="mt-3 text-3xl font-extrabold leading-tight text-white sm:text-4xl">
               {text(
                 "Modern Facilities for Comprehensive Bone & Joint Care",
                 "முழுமையான எலும்பு மற்றும் மூட்டு பராமரிப்பு வசதிகள்"
               )}
-            </h2>
+            </h1>
 
-            <p className="mt-3 text-base leading-relaxed text-slate-600">
+            <p className="mt-3 text-base leading-relaxed text-slate-300">
               {text(
                 "From advanced robotic operation theatres to exclusive doorstep digital X-ray diagnostics, our infrastructure is built to make orthopaedic care seamless, comfortable, and reliable.",
                 "அதிநவீன ரோபோடிக் அறுவை சிகிச்சை முதல் வீட்டுக்கே வந்து எக்ஸ்-ரே எடுக்கும் சேவை வரை நோயாளிகளின் வசதிக்காக பிரத்யேக கட்டமைப்பு."
               )}
             </p>
           </div>
-
-          <Link
-            to="/appointment"
-            className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-cyan-700 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-cyan-800"
-          >
-            <span>{text("Book Consultation", "முன்பதிவு செய்ய")}</span>
-            <ArrowRight size={16} />
-          </Link>
         </div>
+      </section>
 
-        {/* Facility Cards Grid */}
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {facilities.map((facility) => {
-            const Icon = facility.icon;
+      {/* Facility Cards Grid Section */}
+      <section className="bg-white py-16 sm:py-20">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {facilities.map((facility) => {
+              const Icon = facility.icon;
 
-            return (
-              <div
-                key={facility.titleEn}
-                className="group relative flex flex-col justify-between rounded-2xl border border-slate-200/90 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-cyan-300 hover:shadow-lg"
-              >
-                <div>
-                  <div className="flex items-start justify-between">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-50 text-cyan-700 transition duration-300 group-hover:bg-cyan-700 group-hover:text-white">
-                      <Icon size={24} />
+              return (
+                <div
+                  key={facility.titleEn}
+                  className="group relative flex flex-col justify-between rounded-2xl border border-slate-200/90 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-cyan-300 hover:shadow-lg"
+                >
+                  <div>
+                    <div className="flex items-start justify-between">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-50 text-cyan-700 transition duration-300 group-hover:bg-cyan-700 group-hover:text-white">
+                        <Icon size={24} />
+                      </div>
+
+                      <span className="rounded-full bg-slate-100 px-3 py-1 text-[11px] font-bold text-slate-700 transition group-hover:bg-cyan-100 group-hover:text-cyan-900">
+                        {text(facility.highlightEn, facility.highlightTa)}
+                      </span>
                     </div>
 
-                    <span className="rounded-full bg-slate-100 px-3 py-1 text-[11px] font-bold text-slate-700 transition group-hover:bg-cyan-100 group-hover:text-cyan-900">
-                      {text(facility.highlightEn, facility.highlightTa)}
-                    </span>
+                    <h3 className="mt-5 text-lg font-bold text-slate-900 group-hover:text-cyan-700 transition">
+                      {text(facility.titleEn, facility.titleTa)}
+                    </h3>
+
+                    <p className="mt-2 text-sm leading-6 text-slate-600">
+                      {text(facility.descriptionEn, facility.descriptionTa)}
+                    </p>
                   </div>
 
-                  <h3 className="mt-5 text-lg font-bold text-slate-900 group-hover:text-cyan-700 transition">
-                    {text(facility.titleEn, facility.titleTa)}
-                  </h3>
-
-                  <p className="mt-2 text-sm leading-6 text-slate-600">
-                    {text(facility.descriptionEn, facility.descriptionTa)}
-                  </p>
+                  <div className="mt-6 pt-4 border-t border-slate-100">
+                    <Link
+                      to="/appointment"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-cyan-700 hover:text-cyan-900"
+                    >
+                      <span>{text("Inquire About This Service", "இந்த சேவையை பெற")}</span>
+                      <ArrowRight size={14} className="transition group-hover:translate-x-1" />
+                    </Link>
+                  </div>
                 </div>
+              );
+            })}
+          </div>
 
-                <div className="mt-6 pt-4 border-t border-slate-100">
-                  <Link
-                    to="/appointment"
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-cyan-700 hover:text-cyan-900"
-                  >
-                    <span>{text("Inquire About This Service", "இந்த சேவையை பெற")}</span>
-                    <ArrowRight size={14} className="transition group-hover:translate-x-1" />
-                  </Link>
+          {/* Mobile X-Ray & Home Care Feature Highlight */}
+          <div className="mt-12 overflow-hidden rounded-3xl border border-cyan-200 bg-gradient-to-br from-slate-900 via-slate-950 to-cyan-950 text-white shadow-xl">
+            <div className="flex flex-col gap-8 p-7 sm:p-10 lg:flex-row lg:items-center lg:justify-between">
+              <div className="max-w-2xl">
+                <span className="inline-block rounded-full bg-cyan-400/20 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-cyan-300">
+                  {text("Elderly & Immobile Patient Service", "முதியோருக்கான சிறப்பு இல்ல சேவை")}
+                </span>
+
+                <h3 className="mt-3 text-2xl font-bold tracking-tight text-white sm:text-3xl">
+                  {text(
+                    "Need a Bedside Home Visit or Emergency X-Ray in Tiruchirappalli?",
+                    "திருச்சியில் வீட்டுக்கே வந்து எக்ஸ்-ரே எடுக்க அல்லது மருத்துவ பரிசோதனை செய்ய வேண்டுமா?"
+                  )}
+                </h3>
+
+                <p className="mt-3 text-sm leading-relaxed text-slate-300 sm:text-base">
+                  {text(
+                    "Avoid the strain of transporting elderly or pain-stricken patients to diagnostic centres. Call our team to schedule a mobile digital X-ray and doctor home consultation at your doorstep.",
+                    "முதியவர்கள் மற்றும் கடுமையான வலியால் அவதிப்படும் நோயாளிகளை அலையவிடாமல், வீட்டிற்கே நடமாடும் எக்ஸ்-ரே மற்றும் மருத்துவ ஆலோசனையை முன்பதிவு செய்ய எங்களை தொடர்பு கொள்ளவும்."
+                  )}
+                </p>
+
+                <div className="mt-5 flex items-center gap-6 text-sm text-cyan-200">
+                  <span className="flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full bg-cyan-400" />
+                    {text("Low Radiation Digital Unit", "குறைந்த கதிர்வீச்சு கொண்ட டிஜிட்டல் எக்ஸ்-ரே")}
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full bg-cyan-400" />
+                    {text("Fast Bedside Reports", "உடனடி ரிப்போர்ட்")}
+                  </span>
                 </div>
               </div>
-            );
-          })}
-        </div>
 
-        {/* Mobile X-Ray & Home Care Feature Highlight */}
-        <div className="mt-12 overflow-hidden rounded-3xl border border-cyan-200 bg-gradient-to-br from-slate-900 via-slate-950 to-cyan-950 text-white shadow-xl">
-          <div className="flex flex-col gap-8 p-7 sm:p-10 lg:flex-row lg:items-center lg:justify-between">
-            <div className="max-w-2xl">
-              <span className="inline-block rounded-full bg-cyan-400/20 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-cyan-300">
-                {text("Elderly & Immobile Patient Service", "முதியோருக்கான சிறப்பு இல்ல சேவை")}
-              </span>
+              <div className="flex flex-col gap-3 sm:flex-row shrink-0">
+                <a
+                  href={`tel:${clinicPhone}`}
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-500 px-6 py-3.5 text-sm font-bold text-slate-950 shadow-md transition hover:bg-cyan-400 active:scale-95"
+                >
+                  <PhoneCall size={17} />
+                  <span>{text("Call Helpline", "உடனடி தொடர்புக்கு")}</span>
+                </a>
 
-              <h3 className="mt-3 text-2xl font-bold tracking-tight text-white sm:text-3xl">
-                {text(
-                  "Need a Bedside Home Visit or Emergency X-Ray in Tiruchirappalli?",
-                  "திருச்சியில் வீட்டுக்கே வந்து எக்ஸ்-ரே எடுக்க அல்லது மருத்துவ பரிசோதனை செய்ய வேண்டுமா?"
-                )}
-              </h3>
-
-              <p className="mt-3 text-sm leading-relaxed text-slate-300 sm:text-base">
-                {text(
-                  "Avoid the strain of transporting elderly or pain-stricken patients to diagnostic centres. Call our team to schedule a mobile digital X-ray and doctor home consultation at your doorstep.",
-                  "முதியவர்கள் மற்றும் கடுமையான வலியால் அவதிப்படும் நோயாளிகளை அலையவிடாமல், வீட்டிற்கே நடமாடும் எக்ஸ்-ரே மற்றும் மருத்துவ ஆலோசனையை முன்பதிவு செய்ய எங்களை தொடர்பு கொள்ளவும்."
-                )}
-              </p>
-
-              <div className="mt-5 flex items-center gap-6 text-sm text-cyan-200">
-                <span className="flex items-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-cyan-400" />
-                  {text("Low Radiation Digital Unit", "குறைந்த கதிர்வீச்சு கொண்ட டிஜிட்டல் எக்ஸ்-ரே")}
-                </span>
-                <span className="flex items-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-cyan-400" />
-                  {text("Fast Bedside Reports", "உடனடி ரிப்போர்ட்")}
-                </span>
+                <a
+                  href={`https://wa.me/${whatsappNumber}?text=Hello%20Dr.%20Kalaivanan,%20I%20would%20like%20to%20request%20a%20Home%20Visit%20/%20Mobile%20X-Ray.`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-400/50 bg-emerald-500/10 px-5 py-3.5 text-sm font-bold text-emerald-300 transition hover:bg-emerald-500/20 active:scale-95"
+                >
+                  <MessageCircle size={17} className="text-emerald-400" />
+                  <span>{text("WhatsApp Request", "வாட்ஸ்அப் முன்பதிவு")}</span>
+                </a>
               </div>
-            </div>
-
-            <div className="flex flex-col gap-3 sm:flex-row shrink-0">
-              <a
-                href={`tel:${clinicPhone}`}
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-500 px-6 py-3.5 text-sm font-bold text-slate-950 shadow-md transition hover:bg-cyan-400 active:scale-95"
-              >
-                <PhoneCall size={17} />
-                <span>{text("Call Helpline", "உடனடி தொடர்புக்கு")}</span>
-              </a>
-
-              <a
-                href={`https://wa.me/${whatsappNumber}?text=Hello%20Dr.%20Kalaivanan,%20I%20would%20like%20to%20request%20a%20Home%20Visit%20/%20Mobile%20X-Ray.`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-400/50 bg-emerald-500/10 px-5 py-3.5 text-sm font-bold text-emerald-300 transition hover:bg-emerald-500/20 active:scale-95"
-              >
-                <MessageCircle size={17} className="text-emerald-400" />
-                <span>{text("WhatsApp Request", "வாட்ஸ்அப் முன்பதிவு")}</span>
-              </a>
             </div>
           </div>
         </div>
-
-      </div>
-    </section>
+      </section>
+    </main>
   );
 }
 
