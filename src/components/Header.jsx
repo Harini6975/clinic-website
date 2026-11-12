@@ -47,14 +47,14 @@ function Header() {
     <>
       {/* TOP EMERGENCY & QUICK CONTACT SPAN BAR */}
       <div className="bg-slate-900 text-slate-200">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-2 px-4 py-2 text-xs sm:px-6">
-          <div className="flex items-center gap-4">
+        <div className="mx-auto flex max-w-7xl flex-col sm:flex-row items-center justify-between gap-1.5 px-4 py-2 text-xs sm:px-6">
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-3 gap-y-1 text-center sm:text-left">
             <span className="flex items-center gap-1 text-slate-300">
-              <MapPin size={13} className="text-cyan-400" />
+              <MapPin size={13} className="shrink-0 text-cyan-400" />
               <span>{text("Sri Riddhi Specialty Clinic, Tiruchirappalli", "ஸ்ரீ ரித்தி ஸ்பெஷாலிட்டி கிளினிக், திருச்சிராப்பள்ளி")}</span>
             </span>
-            <span className="hidden sm:inline-block text-slate-600">|</span>
-            <span className="hidden sm:inline text-slate-300">
+            <span className="hidden md:inline-block text-slate-600">|</span>
+            <span className="hidden md:inline text-slate-300">
               {text(
                 "Robotic & Complex Joint Replacement",
                 "ரோபோடிக் மற்றும் சிக்கலான மூட்டு மாற்று அறுவை சிகிச்சை"
@@ -78,7 +78,7 @@ function Header() {
               className="flex items-center gap-1 font-semibold text-emerald-400 transition hover:text-emerald-300"
             >
               <MessageCircle size={13} />
-              <span className="hidden sm:inline">{text("WhatsApp", "வாட்ஸ்அப்")}</span>
+              <span className="inline">{text("WhatsApp", "வாட்ஸ்அப்")}</span>
             </a>
           </div>
         </div>
@@ -101,10 +101,10 @@ function Header() {
             </div>
 
             <div>
-              <h1 className="text-base font-extrabold tracking-tight text-slate-900 sm:text-lg">
+              <h1 className="text-sm font-extrabold tracking-tight text-slate-900 sm:text-lg">
                 Dr. M. Kalaivanan
               </h1>
-              <p className="text-xs font-semibold text-cyan-700">
+              <p className="text-[11px] font-semibold text-cyan-700 sm:text-xs">
                 {text(
                   "Orthopaedic & Joint Replacement Surgeon",
                   "எலும்பியல் மற்றும் மூட்டு மாற்று அறுவை சிகிச்சை நிபுணர்"

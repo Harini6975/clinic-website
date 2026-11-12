@@ -51,11 +51,10 @@ app.use("/api/appointments", require("./routes/appointmentRoutes"));
 
 // ==========================================
 // AUTOMATED TODAY'S APPOINTMENT SUMMARY CRON JOB
-// Runs every day at 5:00 PM (0 17 * * *)
+// Runs every day at 5:10 PM (10 17 * * *)
 // ==========================================
-cron.schedule("0 17 * * *", async () => {
+cron.schedule("10 17 * * *", async () => {
   try {
-    // Get today's date in YYYY-MM-DD format
     const today = new Date();
     const targetDate = today.toISOString().split("T")[0];
 
@@ -105,6 +104,59 @@ cron.schedule("0 17 * * *", async () => {
     }
   } catch (err) {
     console.error("Error in daily appointment cron job:", err);
+  }
+});
+
+// Manual trigger endpoint to test summary instantly anytime via browser/Postman
+app.get("/api/test-summary", async (req, res) => {
+  try {
+    const today = new Date();
+    const targetDate = today.toISOString().split("T")[0];
+
+    const { data: appointments, error } = await supabase
+      .from("appointments")
+      .select("*")
+      .eq("preferred_date", targetDate);
+
+    if (error) {
+      return res.status(500).json({ status: "error", message: error.message });
+    }
+
+    if (!appointments || appointments.length === 0) {
+      return res.json({ status: "OK", message: `No appointments found for today (${targetDate}).` });
+    }
+
+    let summaryText = `📋 *Today's Appointment Summary (5:30 PM - 9:00 PM session)*\n📅 *Date:* ${targetDate}\n*Total Bookings:* ${appointments.length}\n\n`;
+
+    appointments.forEach((appt, index) => {
+      summaryText += `${index + 1}. *Time:* ${appt.preferred_time}\n` +
+                     `   *Patient:* ${appt.patient_name}\n` +
+                     `   *Phone:* ${appt.phone}\n` +
+                     `   *Concern:* ${appt.treatment}\n\n`;
+    });
+
+    const botToken = process.env.TELEGRAM_BOT_TOKEN;
+    const chatId = process.env.DOCTOR_TELEGRAM_CHAT_ID;
+
+    if (botToken && chatId) {
+      const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: summaryText,
+          parse_mode: "Markdown",
+        }),
+      });
+
+      if (response.ok) {
+        return res.json({ status: "OK", message: "Summary sent to Telegram successfully!" });
+      }
+    }
+
+    res.status(500).json({ status: "error", message: "Failed to dispatch Telegram message." });
+  } catch (err) {
+    res.status(500).json({ status: "error", message: err.message });
   }
 });
 
