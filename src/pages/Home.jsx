@@ -114,24 +114,21 @@ function HomePage() {
         path="/" 
       />
       
-      {/* 1. RESPONSIVE NOTICE TICKER (Prevents mobile layout overlapping) */}
+      {/* 1. RESPONSIVE NOTICE BAR */}
       <div className="relative w-full bg-cyan-900 text-cyan-100 py-2.5 px-3 border-y border-cyan-800 shadow-inner z-10">
-        {/* Mobile View: Clean, non-scrolling single line that never overflows */}
-        <div className="flex sm:hidden items-center justify-center text-center text-[11px] font-bold uppercase tracking-wide text-white truncate">
-          <span>✦ 5,000+ Surgeries • Fellowship-Trained Surgeon</span>
+        
+        {/* Mobile View (< 640px): Completely static text banner, NO animation, NO overlap */}
+        <div className="flex sm:hidden items-center justify-center text-center text-[11px] font-bold uppercase tracking-wider text-white">
+          <span>✦ Doorstep Home Visit & Portable X-Ray</span>
         </div>
 
-        {/* Desktop View: Smooth Scrolling Marquee Ticker */}
+        {/* Desktop View (≥ 640px): Smooth Scrolling Marquee */}
         <div className="hidden sm:flex w-[200%] animate-marquee whitespace-nowrap text-xs font-bold tracking-wider uppercase items-center">
           <div className="flex items-center justify-around w-1/2">
-            <span className="mx-4 flex items-center gap-1.5">✦ {t("5,000+ Successful Surgeries", "5,000+ வெற்றிகரமான அறுவை சிகிச்சைகள்")}</span>
-            <span className="mx-4 flex items-center gap-1.5">✦ {t("Fellowship-Trained (Mumbai, Greece & Germany)", "மும்பை, கிரீஸ் & ஜெர்மனியில் சிறப்பு பயிற்சி")}</span>
             <span className="mx-4 flex items-center gap-1.5">✦ {t("Doorstep Home Visit & Portable X-Ray", "வீட்டிற்கே வந்து பார்க்கும் சேவை & எக்ஸ்-ரே")}</span>
             <span className="mx-4 flex items-center gap-1.5">✦ {t("Hindi & Tamil Consultations", "ஹிந்தி மற்றும் தமிழ் ஆலோசனை")}</span>
           </div>
           <div className="flex items-center justify-around w-1/2">
-            <span className="mx-4 flex items-center gap-1.5">✦ {t("5,000+ Successful Surgeries", "5,000+ வெற்றிகரமான அறுவை சிகிச்சைகள்")}</span>
-            <span className="mx-4 flex items-center gap-1.5">✦ {t("Fellowship-Trained (Mumbai, Greece & Germany)", "மும்பை, கிரீஸ் & ஜெர்மனியில் சிறப்பு பயிற்சி")}</span>
             <span className="mx-4 flex items-center gap-1.5">✦ {t("Doorstep Home Visit & Portable X-Ray", "வீட்டிற்கே வந்து பார்க்கும் சேவை & எக்ஸ்-ரே")}</span>
             <span className="mx-4 flex items-center gap-1.5">✦ {t("Hindi & Tamil Consultations", "ஹிந்தி மற்றும் தமிழ் ஆலோசனை")}</span>
           </div>
