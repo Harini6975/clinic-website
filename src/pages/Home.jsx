@@ -114,15 +114,9 @@ function HomePage() {
         path="/" 
       />
       
-      {/* 1. RESPONSIVE NOTICE TICKER (Prevents mobile overlap) */}
-      <div className="relative w-full bg-cyan-900 text-cyan-100 py-2.5 px-3 border-y border-cyan-800 shadow-inner z-10">
-        {/* Mobile View: Clean single-line centered text (No overlapping animation) */}
-        <div className="flex sm:hidden items-center justify-center text-center text-[11px] font-bold uppercase tracking-wide text-white">
-          <span>✦ 5,000+ Successful Surgeries • Fellowship-Trained Surgeon</span>
-        </div>
-
-        {/* Desktop View: Smooth Scrolling Marquee */}
-        <div className="hidden sm:flex w-[200%] animate-marquee whitespace-nowrap text-xs font-bold tracking-wider uppercase items-center">
+      {/* 1. INFINITE SMOOTH SCROLLING MARQUEE TICKER */}
+      <div className="relative w-full bg-cyan-900 text-cyan-100 py-2.5 overflow-hidden border-y border-cyan-800 shadow-inner z-10">
+        <div className="flex w-[200%] animate-marquee whitespace-nowrap text-[11px] sm:text-xs font-bold tracking-wider uppercase items-center">
           <div className="flex items-center justify-around w-1/2">
             <span className="mx-4 flex items-center gap-1.5">✦ {t("5,000+ Successful Surgeries", "5,000+ வெற்றிகரமான அறுவை சிகிச்சைகள்")}</span>
             <span className="mx-4 flex items-center gap-1.5">✦ {t("Fellowship-Trained (Mumbai, Greece & Germany)", "மும்பை, கிரீஸ் & ஜெர்மனியில் சிறப்பு பயிற்சி")}</span>

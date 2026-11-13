@@ -49,6 +49,8 @@ a {
 
 .animate-marquee {
   display: flex;
+  flex-wrap: nowrap;         /* <-- Keeps items strictly on one line */
+  white-space: nowrap;       /* <-- Prevents text from breaking or wrapping */
   width: 200%;
   animation: marquee 25s linear infinite;
 }
