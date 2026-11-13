@@ -47,7 +47,7 @@ function Header() {
     <>
       {/* TOP EMERGENCY & QUICK CONTACT SPAN BAR */}
       <div className="bg-slate-900 text-slate-200">
-        <div className="mx-auto flex max-w-7xl flex-col sm:flex-row items-center justify-between gap-1.5 px-4 py-2 text-xs sm:px-6">
+        <div className="mx-auto flex max-w-7xl flex-col sm:flex-row items-center justify-between gap-2 px-3 py-2 text-[11px] sm:text-xs sm:px-6">
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-3 gap-y-1 text-center sm:text-left">
             <span className="flex items-center gap-1 text-slate-300">
               <MapPin size={13} className="shrink-0 text-cyan-400" />
@@ -62,7 +62,7 @@ function Header() {
             </span>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3">
             <a
               href={`tel:${clinicPhone}`}
               className="flex items-center gap-1 font-semibold text-white transition hover:text-cyan-400"
@@ -96,15 +96,15 @@ function Header() {
             className="flex min-w-0 shrink-0 items-center gap-3"
             aria-label="Dr. M. Kalaivanan home"
           >
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-tr from-cyan-800 to-cyan-600 text-white shadow-md shadow-cyan-900/10">
-              <Activity size={24} />
+            <div className="flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-tr from-cyan-800 to-cyan-600 text-white shadow-md shadow-cyan-900/10">
+              <Activity size={22} />
             </div>
 
-            <div>
-              <h1 className="text-sm font-extrabold tracking-tight text-slate-900 sm:text-lg">
+            <div className="min-w-0">
+              <h1 className="text-sm font-extrabold tracking-tight text-slate-900 sm:text-lg truncate">
                 Dr. M. Kalaivanan
               </h1>
-              <p className="text-[11px] font-semibold text-cyan-700 sm:text-xs">
+              <p className="text-[10px] sm:text-[11px] font-semibold text-cyan-700 truncate">
                 {text(
                   "Orthopaedic & Joint Replacement Surgeon",
                   "எலும்பியல் மற்றும் மூட்டு மாற்று அறுவை சிகிச்சை நிபுணர்"
