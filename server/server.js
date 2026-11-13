@@ -51,9 +51,9 @@ app.use("/api/appointments", require("./routes/appointmentRoutes"));
 
 // ==========================================
 // AUTOMATED TODAY'S APPOINTMENT SUMMARY CRON JOB
-// Runs every day at 5:10 PM (10 17 * * *)
+// Runs every day at 5:00 PM (0 17 * * *)
 // ==========================================
-cron.schedule("10 17 * * *", async () => {
+cron.schedule("0 17 * * *", async () => {
   try {
     const today = new Date();
     const targetDate = today.toISOString().split("T")[0];
