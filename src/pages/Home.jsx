@@ -115,8 +115,8 @@ function HomePage() {
       />
       
       {/* 1. INFINITE MOVING MARQUEE TICKER */}
-      <div className="bg-cyan-900 text-cyan-100 py-3 overflow-hidden border-y border-cyan-800 shadow-inner">
-        <div className="flex w-[200%] animate-marquee whitespace-nowrap text-xs font-bold tracking-wider uppercase">
+      <div className="relative w-full bg-cyan-900 text-cyan-100 py-2 sm:py-3 overflow-hidden border-y border-cyan-800 shadow-inner z-10">
+        <div className="flex w-[200%] animate-marquee whitespace-nowrap text-[11px] sm:text-xs font-bold tracking-wider uppercase">
           <div className="flex items-center justify-around w-1/2">
             <span className="mx-6 flex items-center gap-2">✦ {t("5,000+ Successful Surgeries", "5,000+ வெற்றிகரமான அறுவை சிகிச்சைகள்")}</span>
             <span className="mx-6 flex items-center gap-2">✦ {t("Fellowship-Trained in Mumbai, Greece & Germany", "மும்பை, கிரீஸ் மற்றும் ஜெர்மனியில் சிறப்பு பயிற்சி பெற்றவர்")}</span>
