@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { useLanguage } from "../components/LanguageProvider";
 import SEO from "../components/SEO";
+import { supabase } from "../lib/supabaseClient";
 
 export default function Appointment() {
   const { language } = useLanguage();
@@ -108,25 +109,22 @@ export default function Appointment() {
     setFieldErrors({});
 
     try {
-      const response = await fetch("http://localhost:5000/api/appointments", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form),
-      });
+      // Direct insertion into Supabase table "appointments"
+      const { error } = await supabase
+        .from("appointments")
+        .insert([
+          {
+            patient_name: form.patient_name,
+            phone: form.phone,
+            email: form.email || null,
+            treatment: form.treatment,
+            preferred_date: form.preferred_date,
+            preferred_time: form.preferred_time,
+            message: form.message || null,
+          },
+        ]);
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        if (data.errors) {
-          setFieldErrors(data.errors);
-        } else {
-          setFieldErrors({ form: data.message || "Failed to submit because of wrongly entered fields." });
-        }
-        setLoading(false);
-        return;
-      }
+      if (error) throw error;
 
       setSuccess(
         t(
@@ -145,7 +143,7 @@ export default function Appointment() {
         message: "",
       });
     } catch (err) {
-      console.error("Appointment submission failed:", err);
+      console.error("Appointment submission failed:", err.message);
       setFieldErrors({
         form: t(
           "We could not submit your request. Please check your connection or contact the clinic directly.",
