@@ -6,7 +6,6 @@ import {
 } from "lucide-react";
 import { useLanguage } from "../components/LanguageProvider";
 import SEO from "../components/SEO";
-import { supabase } from "../lib/supabaseClient";
 
 export default function Appointment() {
   const { language } = useLanguage();
@@ -109,22 +108,27 @@ export default function Appointment() {
     setFieldErrors({});
 
     try {
-      // Direct insertion mapping frontend state to exact Supabase table columns
-      const { error } = await supabase
-        .from("appointments")
-        .insert([
-          {
-            patient_name: form.patient_name.trim(),
-            phone: form.phone.trim(),
-            email: form.email ? form.email.trim().toLowerCase() : null,
-            reason_for_visit: form.treatment.trim(),
-            appointment_date: form.preferred_date,
-            appointment_time: form.preferred_time.trim(),
-            message: form.message ? form.message.trim() : null,
-          },
-        ]);
+      // Send data to Vercel Serverless Function (/api/appointments)
+      // This securely saves to Supabase and triggers the Telegram alert from the server!
+      const response = await fetch("/api/appointments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          patient_name: form.patient_name.trim(),
+          phone: form.phone.trim(),
+          email: form.email ? form.email.trim().toLowerCase() : null,
+          treatment: form.treatment.trim(),
+          preferred_date: form.preferred_date,
+          preferred_time: form.preferred_time.trim(),
+          message: form.message ? form.message.trim() : null,
+        }),
+      });
 
-      if (error) throw error;
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "Failed to submit appointment.");
+      }
 
       setSuccess(
         t(
