@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { useLanguage } from "../components/LanguageProvider";
 import SEO from "../components/SEO";
+import { supabase } from "../lib/supabaseClient";
 
 export default function Appointment() {
   const { language } = useLanguage();
@@ -108,29 +109,22 @@ export default function Appointment() {
     setFieldErrors({});
 
     try {
-      // Send request to your Express backend API proxy route
-      const response = await fetch("/api/appointments", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          patient_name: form.patient_name,
-          phone: form.phone,
-          email: form.email,
-          treatment: form.treatment,
-          preferred_date: form.preferred_date,
-          preferred_time: form.preferred_time,
-          message: form.message,
-        }),
-      });
+      // Direct insertion mapping frontend state to exact Supabase table columns
+      const { error } = await supabase
+        .from("appointments")
+        .insert([
+          {
+            patient_name: form.patient_name.trim(),
+            phone: form.phone.trim(),
+            email: form.email ? form.email.trim().toLowerCase() : null,
+            reason_for_visit: form.treatment.trim(),
+            appointment_date: form.preferred_date,
+            appointment_time: form.preferred_time.trim(),
+            message: form.message ? form.message.trim() : null,
+          },
+        ]);
 
-      const result = await response.json();
-
-      if (!response.ok) {
-        if (result.errors) {
-          setFieldErrors(result.errors);
-        }
-        throw new Error(result.message || "Failed to submit appointment.");
-      }
+      if (error) throw error;
 
       setSuccess(
         t(
@@ -150,13 +144,12 @@ export default function Appointment() {
       });
     } catch (err) {
       console.error("Appointment submission failed:", err.message);
-      setFieldErrors((prev) => ({
-        ...prev,
+      setFieldErrors({
         form: t(
           "We could not submit your request. Please check your connection or contact the clinic directly.",
           "கோரிக்கையை அனுப்ப முடியவில்லை. நேரிடையாக கிளினிக்கைத் தொடர்புகொள்ளவும்."
         ),
-      }));
+      });
     } finally {
       setLoading(false);
     }
@@ -215,6 +208,7 @@ export default function Appointment() {
                 value={form.patient_name}
                 onChange={handleChange}
                 maxLength={120}
+                required
                 className={`mt-2 h-12 w-full rounded-xl border px-4 font-normal text-slate-900 outline-none focus:ring-2 ${
                   fieldErrors.patient_name 
                     ? "border-red-500 focus:border-red-600 focus:ring-red-100 bg-red-50/30" 
@@ -222,11 +216,6 @@ export default function Appointment() {
                 }`}
                 placeholder={t("Enter full name", "முழுப் பெயரை உள்ளிடவும்")}
               />
-              {fieldErrors.patient_name && (
-                <span className="mt-1 block text-xs font-semibold text-red-600">
-                  {fieldErrors.patient_name}
-                </span>
-              )}
             </label>
 
             {/* Phone Number - Strictly Restricted to 10 Digits */}
@@ -244,6 +233,7 @@ export default function Appointment() {
                     setFieldErrors({ ...fieldErrors, phone: "" });
                   }
                 }}
+                required
                 className={`mt-2 h-12 w-full rounded-xl border px-4 font-normal text-slate-900 outline-none focus:ring-2 ${
                   fieldErrors.phone 
                     ? "border-red-500 focus:border-red-600 focus:ring-red-100 bg-red-50/30" 
@@ -251,11 +241,6 @@ export default function Appointment() {
                 }`}
                 placeholder={t("Enter 10-digit mobile number", "செல்லிடப்பேசி எண்ணை உள்ளிடவும்")}
               />
-              {fieldErrors.phone && (
-                <span className="mt-1 block text-xs font-semibold text-red-600">
-                  {fieldErrors.phone}
-                </span>
-              )}
             </label>
 
             {/* Email Address */}
@@ -267,18 +252,9 @@ export default function Appointment() {
                 value={form.email}
                 onChange={handleChange}
                 maxLength={254}
-                className={`mt-2 h-12 w-full rounded-xl border px-4 font-normal text-slate-900 outline-none focus:ring-2 ${
-                  fieldErrors.email 
-                    ? "border-red-500 focus:border-red-600 focus:ring-red-100 bg-red-50/30" 
-                    : "border-slate-300 focus:border-cyan-700 focus:ring-cyan-100"
-                }`}
+                className="mt-2 h-12 w-full rounded-xl border border-slate-300 px-4 font-normal text-slate-900 outline-none focus:border-cyan-700 focus:ring-2 focus:ring-cyan-100"
                 placeholder={t("Enter email address", "மின்னஞ்சலை உள்ளிடவும்")}
               />
-              {fieldErrors.email && (
-                <span className="mt-1 block text-xs font-semibold text-red-600">
-                  {fieldErrors.email}
-                </span>
-              )}
             </label>
 
             {/* Primary Concern */}
@@ -288,11 +264,8 @@ export default function Appointment() {
                 name="treatment"
                 value={form.treatment}
                 onChange={handleChange}
-                className={`mt-2 h-12 w-full rounded-xl border bg-white px-4 font-normal text-slate-900 outline-none focus:ring-2 ${
-                  fieldErrors.treatment 
-                    ? "border-red-500 focus:border-red-600 focus:ring-red-100 bg-red-50/30" 
-                    : "border-slate-300 focus:border-cyan-700 focus:ring-cyan-100"
-                }`}
+                required
+                className="mt-2 h-12 w-full rounded-xl border border-slate-300 bg-white px-4 font-normal text-slate-900 outline-none focus:border-cyan-700 focus:ring-2 focus:ring-cyan-100"
               >
                 <option value="">{t("Select orthopaedic concern", "பிரச்சினையைத் தேர்ந்தெடுக்கவும்")}</option>
                 <option value="Robotic Knee Replacement">{t("Robotic Knee Replacement Evaluation", "ரோபோடிக் முழங்கால் மாற்று அறுவை சிகிச்சை ஆலோசனை")}</option>
@@ -303,11 +276,6 @@ export default function Appointment() {
                 <option value="Home Visit & Mobile X-Ray Request">{t("Request Home Visit & Mobile X-Ray", "வீட்டுக்கு வந்து எக்ஸ்-ரே எடுக்க கோரிக்கை")}</option>
                 <option value="Second Opinion on Scans">{t("Second Opinion on Scan Reports", "ஸ்கேன் ரிப்போர்ட் இரண்டாம் கட்ட ஆலோசனை")}</option>
               </select>
-              {fieldErrors.treatment && (
-                <span className="mt-1 block text-xs font-semibold text-red-600">
-                  {fieldErrors.treatment}
-                </span>
-              )}
             </label>
 
             {/* Preferred Date */}
@@ -319,17 +287,9 @@ export default function Appointment() {
                 min={new Date().toLocaleDateString("en-CA")}
                 value={form.preferred_date}
                 onChange={handleChange}
-                className={`mt-2 h-12 w-full rounded-xl border px-4 font-normal text-slate-900 outline-none focus:ring-2 ${
-                  fieldErrors.preferred_date 
-                    ? "border-red-500 focus:border-red-600 focus:ring-red-100 bg-red-50/30" 
-                    : "border-slate-300 focus:border-cyan-700 focus:ring-cyan-100"
-                }`}
+                required
+                className="mt-2 h-12 w-full rounded-xl border border-slate-300 px-4 font-normal text-slate-900 outline-none focus:border-cyan-700 focus:ring-2 focus:ring-cyan-100"
               />
-              {fieldErrors.preferred_date && (
-                <span className="mt-1 block text-xs font-semibold text-red-600">
-                  {fieldErrors.preferred_date}
-                </span>
-              )}
             </label>
 
             {/* Preferred Time Slot */}
@@ -339,14 +299,10 @@ export default function Appointment() {
                 name="preferred_time"
                 value={form.preferred_time}
                 onChange={handleChange}
-                className={`mt-2 h-12 w-full rounded-xl border bg-white px-4 font-normal text-slate-900 outline-none focus:ring-2 ${
-                  fieldErrors.preferred_time 
-                    ? "border-red-500 focus:border-red-600 focus:ring-red-100 bg-red-50/30" 
-                    : "border-slate-300 focus:border-cyan-700 focus:ring-cyan-100"
-                }`}
+                required
+                className="mt-2 h-12 w-full rounded-xl border border-slate-300 bg-white px-4 font-normal text-slate-900 outline-none focus:border-cyan-700 focus:ring-2 focus:ring-cyan-100"
               >
                 <option value="">{t("Choose 15-min slot", "15 நிமிட நேரத்தைத் தேர்ந்தெடுக்கவும்")}</option>
-
                 {availableEveningSlots.length > 0 && (
                   <optgroup label={t("Time Slots (5:30 PM - 9:00 PM)", "நேர ஸ்லாட்கள் (5:30 - 9:00)")}>
                     {availableEveningSlots.map((slot) => (
@@ -355,11 +311,6 @@ export default function Appointment() {
                   </optgroup>
                 )}
               </select>
-              {fieldErrors.preferred_time && (
-                <span className="mt-1 block text-xs font-semibold text-red-600">
-                  {fieldErrors.preferred_time}
-                </span>
-              )}
             </label>
 
             {/* Message */}
