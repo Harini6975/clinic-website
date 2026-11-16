@@ -1,12 +1,11 @@
-const { createClient } = require("@supabase/supabase-js");
+import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
   process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY
 );
 
-module.exports = async function handler(req, res) {
-  // Enable CORS
+export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
@@ -40,7 +39,7 @@ module.exports = async function handler(req, res) {
 
     const cleanPhone = phone.trim().replace(/\D/g, "");
 
-    // 1. Save securely to Supabase via serverless backend
+    // 1. Save to Supabase
     const { data, error } = await supabase
       .from("appointments")
       .insert([{
@@ -60,7 +59,7 @@ module.exports = async function handler(req, res) {
       return res.status(400).json({ message: error.message });
     }
 
-    // 2. Send Telegram Notification securely from server
+    // 2. Send Telegram Notification
     const botToken = process.env.TELEGRAM_BOT_TOKEN || process.env.VITE_TELEGRAM_BOT_TOKEN;
     const chatId = process.env.TELEGRAM_CHAT_ID || process.env.VITE_TELEGRAM_CHAT_ID;
 
@@ -73,7 +72,7 @@ module.exports = async function handler(req, res) {
         `🩺 *Reason for Visit:* ${treatment}\n` +
         `📝 *Notes:* ${message ? message.trim() : "None"}`;
 
-      const telegramRes = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -82,11 +81,6 @@ module.exports = async function handler(req, res) {
           parse_mode: "Markdown",
         }),
       });
-
-      const telegramResult = await telegramRes.json();
-      if (!telegramResult.ok) {
-        console.error("Telegram API Error:", telegramResult.description);
-      }
     }
 
     return res.status(201).json({ success: true, data });
@@ -94,4 +88,4 @@ module.exports = async function handler(req, res) {
     console.error("Server error:", err.message);
     return res.status(500).json({ message: err.message });
   }
-};
+}
