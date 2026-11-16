@@ -6,7 +6,6 @@ import {
 } from "lucide-react";
 import { useLanguage } from "../components/LanguageProvider";
 import SEO from "../components/SEO";
-import { supabase } from "../lib/supabaseClient";
 
 export default function Appointment() {
   const { language } = useLanguage();
@@ -109,22 +108,29 @@ export default function Appointment() {
     setFieldErrors({});
 
     try {
-      // Direct insertion mapping frontend state to exact Supabase table columns
-      const { error } = await supabase
-        .from("appointments")
-        .insert([
-          {
-            patient_name: form.patient_name,
-            phone: form.phone,
-            email: form.email || null,
-            reason_for_visit: form.treatment, // Matches Supabase column name
-            appointment_date: form.preferred_date, // Matches Supabase column name
-            appointment_time: form.preferred_time, // Matches Supabase column name
-            message: form.message || null,
-          },
-        ]);
+      // Send request to your Express backend API proxy route
+      const response = await fetch("/api/appointments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          patient_name: form.patient_name,
+          phone: form.phone,
+          email: form.email,
+          treatment: form.treatment,
+          preferred_date: form.preferred_date,
+          preferred_time: form.preferred_time,
+          message: form.message,
+        }),
+      });
 
-      if (error) throw error;
+      const result = await response.json();
+
+      if (!response.ok) {
+        if (result.errors) {
+          setFieldErrors(result.errors);
+        }
+        throw new Error(result.message || "Failed to submit appointment.");
+      }
 
       setSuccess(
         t(
@@ -144,12 +150,13 @@ export default function Appointment() {
       });
     } catch (err) {
       console.error("Appointment submission failed:", err.message);
-      setFieldErrors({
+      setFieldErrors((prev) => ({
+        ...prev,
         form: t(
           "We could not submit your request. Please check your connection or contact the clinic directly.",
           "கோரிக்கையை அனுப்ப முடியவில்லை. நேரிடையாக கிளினிக்கைத் தொடர்புகொள்ளவும்."
         ),
-      });
+      }));
     } finally {
       setLoading(false);
     }
