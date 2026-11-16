@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { useLanguage } from "../components/LanguageProvider";
 import SEO from "../components/SEO";
+import { supabase } from "../lib/supabaseClient";
 
 export default function Appointment() {
   const { language } = useLanguage();
@@ -36,7 +37,6 @@ export default function Appointment() {
     "08:00 PM", "08:15 PM", "08:30 PM", "08:45 PM", "09:00 PM"
   ];
 
-  // Helper function to check if a specific slot time has already passed for today
   const isTimeSlotPast = (timeStr, selectedDateStr) => {
     if (!selectedDateStr) return false;
     
@@ -48,10 +48,8 @@ export default function Appointment() {
     const todayDateOnly = new Date();
     todayDateOnly.setHours(0, 0, 0, 0);
 
-    // If selected date is in the future, no time is past
     if (selectedDay > todayDateOnly) return false;
     
-    // If selected date is today, compare exact hours/minutes
     if (selectedDay.getTime() === todayDateOnly.getTime()) {
       let hours = 0;
       let minutes = 0;
@@ -79,7 +77,6 @@ export default function Appointment() {
     return false;
   };
 
-  // Filter available slots dynamically based on form.preferred_date
   const availableEveningSlots = eveningSlots.filter(
     (slot) => !isTimeSlotPast(slot, form.preferred_date)
   );
@@ -108,26 +105,51 @@ export default function Appointment() {
     setFieldErrors({});
 
     try {
-      // Send data to Vercel Serverless Function (/api/appointments)
-      // This securely saves to Supabase and triggers the Telegram alert from the server!
-      const response = await fetch("/api/appointments", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          patient_name: form.patient_name.trim(),
-          phone: form.phone.trim(),
-          email: form.email ? form.email.trim().toLowerCase() : null,
-          treatment: form.treatment.trim(),
-          preferred_date: form.preferred_date,
-          preferred_time: form.preferred_time.trim(),
-          message: form.message ? form.message.trim() : null,
-        }),
-      });
+      const cleanPhone = form.phone.trim().replace(/\D/g, "");
 
-      const result = await response.json();
+      // 1. Save directly to Supabase
+      const { error } = await supabase
+        .from("appointments")
+        .insert([
+          {
+            patient_name: form.patient_name.trim(),
+            phone: cleanPhone,
+            email: form.email ? form.email.trim().toLowerCase() : null,
+            reason_for_visit: form.treatment.trim(),
+            appointment_date: form.preferred_date,
+            appointment_time: form.preferred_time.trim(),
+            message: form.message ? form.message.trim() : null,
+          },
+        ]);
 
-      if (!response.ok) {
-        throw new Error(result.message || "Failed to submit appointment.");
+      if (error) throw error;
+
+      // 2. Send Telegram Notification directly from the browser
+      try {
+        const botToken = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
+        const chatId = import.meta.env.VITE_TELEGRAM_CHAT_ID;
+
+        if (botToken && chatId) {
+          const telegramText = `🔔 *New Appointment Alert*\n\n` +
+            `📅 *Date:* ${form.preferred_date}\n` +
+            `⏰ *Time:* ${form.preferred_time}\n` +
+            `👤 *Patient Name:* ${form.patient_name.trim()}\n` +
+            `📞 *Phone:* ${cleanPhone}\n` +
+            `🩺 *Reason for Visit:* ${form.treatment}\n` +
+            `📝 *Notes:* ${form.message ? form.message.trim() : "None"}`;
+
+          await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              chat_id: chatId,
+              text: telegramText,
+              parse_mode: "Markdown",
+            }),
+          });
+        }
+      } catch (telegramErr) {
+        console.error("Telegram notification warning:", telegramErr.message);
       }
 
       setSuccess(
@@ -204,7 +226,6 @@ export default function Appointment() {
           )}
 
           <div className="grid gap-5 sm:grid-cols-2">
-            {/* Patient Name */}
             <label className="text-sm font-semibold text-slate-700">
               {t("Patient Name *", "நோயாளியின் பெயர் *")}
               <input
@@ -213,16 +234,11 @@ export default function Appointment() {
                 onChange={handleChange}
                 maxLength={120}
                 required
-                className={`mt-2 h-12 w-full rounded-xl border px-4 font-normal text-slate-900 outline-none focus:ring-2 ${
-                  fieldErrors.patient_name 
-                    ? "border-red-500 focus:border-red-600 focus:ring-red-100 bg-red-50/30" 
-                    : "border-slate-300 focus:border-cyan-700 focus:ring-cyan-100"
-                }`}
+                className="mt-2 h-12 w-full rounded-xl border border-slate-300 px-4 font-normal text-slate-900 outline-none focus:border-cyan-700 focus:ring-2 focus:ring-cyan-100"
                 placeholder={t("Enter full name", "முழுப் பெயரை உள்ளிடவும்")}
               />
             </label>
 
-            {/* Phone Number - Strictly Restricted to 10 Digits */}
             <label className="text-sm font-semibold text-slate-700">
               {t("Phone Number *", "தொலைபேசி எண் *")}
               <input
@@ -233,21 +249,13 @@ export default function Appointment() {
                 onChange={(e) => {
                   const numericValue = e.target.value.replace(/\D/g, "").slice(0, 10);
                   setForm({ ...form, phone: numericValue });
-                  if (fieldErrors.phone) {
-                    setFieldErrors({ ...fieldErrors, phone: "" });
-                  }
                 }}
                 required
-                className={`mt-2 h-12 w-full rounded-xl border px-4 font-normal text-slate-900 outline-none focus:ring-2 ${
-                  fieldErrors.phone 
-                    ? "border-red-500 focus:border-red-600 focus:ring-red-100 bg-red-50/30" 
-                    : "border-slate-300 focus:border-cyan-700 focus:ring-cyan-100"
-                }`}
+                className="mt-2 h-12 w-full rounded-xl border border-slate-300 px-4 font-normal text-slate-900 outline-none focus:border-cyan-700 focus:ring-2 focus:ring-cyan-100"
                 placeholder={t("Enter 10-digit mobile number", "செல்லிடப்பேசி எண்ணை உள்ளிடவும்")}
               />
             </label>
 
-            {/* Email Address */}
             <label className="text-sm font-semibold text-slate-700 sm:col-span-2">
               {t("Email Address (Optional)", "மின்னஞ்சல் முகவரி (விருப்பத்தேர்வு)")}
               <input
@@ -261,7 +269,6 @@ export default function Appointment() {
               />
             </label>
 
-            {/* Primary Concern */}
             <label className="text-sm font-semibold text-slate-700 sm:col-span-2">
               {t("Primary Concern / Reason for Visit *", "வருகைக்கான காரணம் அல்லது பிரச்சினை *")}
               <select
@@ -282,7 +289,6 @@ export default function Appointment() {
               </select>
             </label>
 
-            {/* Preferred Date */}
             <label className="text-sm font-semibold text-slate-700">
               {t("Preferred Date *", "விரும்பும் தேதி *")}
               <input
@@ -296,7 +302,6 @@ export default function Appointment() {
               />
             </label>
 
-            {/* Preferred Time Slot */}
             <label className="text-sm font-semibold text-slate-700">
               {t("Preferred Time Slot *", "விரும்பும் நேரம் *")}
               <select
@@ -307,17 +312,12 @@ export default function Appointment() {
                 className="mt-2 h-12 w-full rounded-xl border border-slate-300 bg-white px-4 font-normal text-slate-900 outline-none focus:border-cyan-700 focus:ring-2 focus:ring-cyan-100"
               >
                 <option value="">{t("Choose 15-min slot", "15 நிமிட நேரத்தைத் தேர்ந்தெடுக்கவும்")}</option>
-                {availableEveningSlots.length > 0 && (
-                  <optgroup label={t("Time Slots (5:30 PM - 9:00 PM)", "நேர ஸ்லாட்கள் (5:30 - 9:00)")}>
-                    {availableEveningSlots.map((slot) => (
-                      <option key={slot} value={slot}>{slot}</option>
-                    ))}
-                  </optgroup>
-                )}
+                {availableEveningSlots.map((slot) => (
+                  <option key={slot} value={slot}>{slot}</option>
+                ))}
               </select>
             </label>
 
-            {/* Message */}
             <label className="text-sm font-semibold text-slate-700 sm:col-span-2">
               {t("Additional Medical Details / Message", "கூடுதல் குறிப்புகள் அல்லது மருத்துவ விவரங்கள்")}
               <textarea
