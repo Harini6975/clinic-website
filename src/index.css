@@ -40,8 +40,9 @@ a {
 /* --- SMOOTH MARQUEE TICKER ANIMATION --- */
 @keyframes marquee {
   0% {
-    transform: translateX(0%);
+    transform: translateX(0);
   }
+
   100% {
     transform: translateX(-50%);
   }
@@ -49,8 +50,18 @@ a {
 
 .animate-marquee {
   display: flex;
-  flex-wrap: nowrap;         /* <-- Keeps items strictly on one line */
-  white-space: nowrap;       /* <-- Prevents text from breaking or wrapping */
-  width: 200%;
-  animation: marquee 60s linear infinite;
+  flex-wrap: nowrap;
+  width: max-content;
+  white-space: nowrap;
+  animation: marquee 30s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
 }
