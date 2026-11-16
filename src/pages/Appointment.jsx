@@ -109,7 +109,7 @@ export default function Appointment() {
     setFieldErrors({});
 
     try {
-      // Direct insertion into Supabase table "appointments"
+      // Direct insertion mapping frontend state to exact Supabase table columns
       const { error } = await supabase
         .from("appointments")
         .insert([
@@ -117,9 +117,9 @@ export default function Appointment() {
             patient_name: form.patient_name,
             phone: form.phone,
             email: form.email || null,
-            treatment: form.treatment,
-            preferred_date: form.preferred_date,
-            preferred_time: form.preferred_time,
+            reason_for_visit: form.treatment, // Matches Supabase column name
+            appointment_date: form.preferred_date, // Matches Supabase column name
+            appointment_time: form.preferred_time, // Matches Supabase column name
             message: form.message || null,
           },
         ]);
