@@ -53,7 +53,7 @@ export default function Contact() {
           <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg">
             {text(
               "Get in touch for appointment scheduling, scan evaluations, and orthopaedic surgery inquiries in Tiruchirappalli.",
-              "திருச்சியில் எலும்பியல் ஆலோசனை, முன்பதிவு மற்றும் சிகிச்சைகள் குறித்த சந்தேகங்களுக்கு எங்களைத் தொடர்புகொள்ளலாம்."
+              "திருச்சியில் எலும்பியல் ஆலோசனை, முன்பதிவு மற்றும் சிறப்புகள் குறித்த சந்தேகங்களுக்கு எங்களைத் தொடர்புகொள்ளலாம்."
             )}
           </p>
         </div>

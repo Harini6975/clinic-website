@@ -124,7 +124,7 @@ function Specialities() {
             <h2 className="mt-3 text-3xl font-extrabold leading-tight text-slate-900 sm:text-4xl">
               {text(
                 "Advanced Orthopaedic & Surgical Care",
-                "முழுமையான எலும்பியல் & மூட்டு மாற்று சிகிச்சைகள்"
+                "முழுமையான எலும்பியல் & மூட்டு மாற்று சிறப்புகள்"
               )}
             </h2>
 

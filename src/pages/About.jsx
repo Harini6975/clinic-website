@@ -74,7 +74,7 @@ export default function About() {
       descEn: "Expertise in addressing Avascular Necrosis (AVN), post-traumatic arthritis, and revision hip surgeries.",
       descTa: "AVN பாதிப்பு மற்றும் மூட்டு தேய்மானத்திற்கு நவீன இடுப்பு மூட்டு மாற்று அறுவை சிகிச்சை.",
       detailsEn: "Comprehensive evaluation and surgical management for complex hip joint disorders, including Avascular Necrosis (AVN), post-traumatic arthritis, and revision hip reconstruction surgeries.",
-      detailsDetailsTa: "AVN மற்றும் இடுப்பு மூட்டு தேய்மானத்திற்கான நவீன மறுசீரமைப்பு மற்றும் மாற்று அறுவை சிகிச்சைகள்."
+      detailsDetailsTa: "AVN மற்றும் இடுப்பு மூட்டு தேய்மானத்திற்கான நவீன மறுசீரமைப்பு மற்றும் மாற்று அறுவை சிறப்புகள்."
     },
     {
       icon: ShieldCheck,
@@ -83,7 +83,7 @@ export default function About() {
       descEn: "Decades of handling complex intra-articular fractures, non-unions, and multi-ligament knee trauma.",
       descTa: "விபத்து காயங்கள் மற்றும் சிக்கலான எலும்பு முறிவுகளுக்கு சர்வதேச தரத்திலான சிகிச்சை.",
       detailsEn: "Round-the-clock surgical management for high-velocity accident trauma, complex intra-articular fractures, non-unions, and multi-ligament knee injuries with advanced fixation.",
-      detailsDetailsTa: "விபத்து காயங்கள், எலும்பு முறிவுகள் மற்றும் தசைநார் காயங்களுக்கு அவசர மற்றும் சிறப்பு அறுவை சிகிச்சைகள்."
+      detailsDetailsTa: "விபத்து காயங்கள், எலும்பு முறிவுகள் மற்றும் தசைநார் காயங்களுக்கு அவசர மற்றும் சிறப்பு அறுவை சிறப்புகள்."
     },
     {
       icon: FileBadge,

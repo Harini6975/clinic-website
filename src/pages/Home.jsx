@@ -53,7 +53,7 @@ function HomePage() {
       icon: Award,
       value: "5,000+",
       labelEn: "Successful Surgeries",
-      labelTa: "வெற்றிகரமான அறுவை சிகிச்சைகள்",
+      labelTa: "வெற்றிகரமான அறுவை சிறப்புகள்",
     },
     {
       icon: Users,
@@ -110,7 +110,7 @@ function HomePage() {
       {/* Dynamic SEO Meta Tags & Local Business Schema */}
       <SEO 
         title={t("Best Orthopedic & Robotic Joint Replacement Surgeon in Trichy", "திருச்சியில் சிறந்த எலும்பியல் மற்றும் ரோபோடிக் மூட்டு மாற்று அறுவை சிகிச்சை நிபுணர்")} 
-        description={t("Consult Dr. M. Kalaivanan at Sri Riddhi Speciality Clinic, Trichy for advanced robotic joint replacements, trauma care, and doorstep portable X-Ray services.", "திருச்சி ஸ்ரீ ரித்தி ஸ்பெஷாலிட்டி கிளினிக்கில் டாக்டர் எம். கலைவாணன் அவர்களிடம் நவீன ரோபோடிக் மூட்டு மாற்று அறுவை சிகிச்சைகள் மற்றும் அவசர சிகிச்சைகளுக்கு ஆலோசனை பெறுங்கள்.")} 
+        description={t("Consult Dr. M. Kalaivanan at Sri Riddhi Speciality Clinic, Trichy for advanced robotic joint replacements, trauma care, and doorstep portable X-Ray services.", "திருச்சி ஸ்ரீ ரித்தி ஸ்பெஷாலிட்டி கிளினிக்கில் டாக்டர் எம். கலைவாணன் அவர்களிடம் நவீன ரோபோடிக் மூட்டு மாற்று அறுவை சிறப்புகள் மற்றும் அவசர சிகிச்சைகளுக்கு ஆலோசனை பெறுங்கள்.")} 
         path="/" 
       />
       
@@ -120,7 +120,7 @@ function HomePage() {
           {/* First announcement group */}
           <div className="flex shrink-0 items-center gap-8 pr-8">
             <span className="flex shrink-0 items-center gap-1.5">
-              ✦ {t("5,000+ Successful Surgeries", "5,000+ வெற்றிகரமான அறுவை சிகிச்சைகள்")}
+              ✦ {t("5,000+ Successful Surgeries", "5,000+ வெற்றிகரமான அறுவை சிறப்புகள்")}
             </span>
             <span className="flex shrink-0 items-center gap-1.5">
               ✦ {t("Fellowship-Trained (Mumbai, Greece & Germany)", "மும்பை, கிரீஸ் & ஜெர்மனியில் சிறப்பு பயிற்சி")}
@@ -136,7 +136,7 @@ function HomePage() {
           {/* Duplicate group for seamless scrolling */}
           <div className="flex shrink-0 items-center gap-8 pr-8" aria-hidden="true">
             <span className="flex shrink-0 items-center gap-1.5">
-              ✦ {t("5,000+ Successful Surgeries", "5,000+ வெற்றிகரமான அறுவை சிகிச்சைகள்")}
+              ✦ {t("5,000+ Successful Surgeries", "5,000+ வெற்றிகரமான அறுவை சிறப்புகள்")}
             </span>
             <span className="flex shrink-0 items-center gap-1.5">
               ✦ {t("Fellowship-Trained (Mumbai, Greece & Germany)", "மும்பை, கிரீஸ் & ஜெர்மனியில் சிறப்பு பயிற்சி")}

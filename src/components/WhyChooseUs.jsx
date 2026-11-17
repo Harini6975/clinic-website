@@ -39,11 +39,11 @@ function WhyChooseUs() {
     {
       icon: ShieldCheck,
       titleEn: "5000+ Proven Surgical Outcomes",
-      titleTa: "5000+ வெற்றிகரமான சிகிச்சைகள்",
+      titleTa: "5000+ வெற்றிகரமான சிறப்புகள்",
       descriptionEn:
         "Over two decades of excellence handling high-velocity articular trauma, pelvic reconstructions, and joint surgeries.",
       descriptionTa:
-        "20 ஆண்டுகளுக்கும் மேலான மருத்துவ அனுபவத்தில் 5000-க்கும் மேற்பட்ட சிக்கலான எலும்பு மற்றும் மூட்டு சிகிச்சைகள்.",
+        "20 ஆண்டுகளுக்கும் மேலான மருத்துவ அனுபவத்தில் 5000-க்கும் மேற்பட்ட சிக்கலான எலும்பு மற்றும் மூட்டு சிறப்புகள்.",
     },
     {
       icon: Home,

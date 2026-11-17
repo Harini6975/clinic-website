@@ -98,7 +98,7 @@ export default function Services() {
 
         <div className="relative z-10 mx-auto max-w-7xl">
           <p className="inline-block rounded-full bg-cyan-400/10 border border-cyan-400/20 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-cyan-300">
-            {t("Orthopaedic Services & Surgeries", "எலும்பியல் சிகிச்சைகள் மற்றும் அறுவை சிகிச்சைகள்")}
+            {t("Orthopaedic Services & Surgeries", "எலும்பியல் சிறப்புகள் மற்றும் அறுவை சிறப்புகள்")}
           </p>
 
           <h1 className="mt-4 max-w-3xl text-3xl font-extrabold leading-tight tracking-tight sm:text-5xl">
