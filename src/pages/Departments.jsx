@@ -51,7 +51,7 @@ export default function Departments() {
     {
       title: isTamil ? "எலும்பு ஆரோக்கியம்" : "Maintaining Bone Health",
       description: isTamil
-        ? "எலும்பு ஆரோக்கியம் குறித்த கட்டுரைகள் இங்கே சேர்க்கப்படும்."
+        ? "எலும்பு ஆரோக்கியம் குறித்த வலைப்பதிவுகள் இங்கே சேர்க்கப்படும்."
         : "A space for clinic-approved articles about bone health.",
     },
     {
@@ -147,11 +147,11 @@ export default function Departments() {
             <BookOpen className="text-blue-700" size={30} />
             <div>
               <h2 className="text-2xl font-bold sm:text-3xl">
-                {isTamil ? "சுகாதாரக் கட்டுரைகள்" : "Health Articles"}
+                {isTamil ? "சுகாதாரக் வலைப்பதிவுகள்" : "Health Articles"}
               </h2>
               <p className="mt-1 text-slate-600">
                 {isTamil
-                  ? "மருத்துவர் சரிபார்த்த கட்டுரைகள் விரைவில் சேர்க்கப்படும்."
+                  ? "மருத்துவர் சரிபார்த்த வலைப்பதிவுகள் விரைவில் சேர்க்கப்படும்."
                   : "Clinic-reviewed articles can be added here after approval."}
               </p>
             </div>

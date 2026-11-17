@@ -90,7 +90,7 @@ export default function About() {
       titleEn: "Scientific Research & Publications",
       titleTa: "சர்வதேச ஆராய்ச்சி வெளியீடுகள்",
       descEn: "Published clinical author in prestigious peer-reviewed robotic and orthopaedic surgical journals.",
-      descTa: "முன்னணி சர்வதேச எலும்பியல் மருத்துவ இதழ்களில் ஆய்வுக்கட்டுரைகள் வெளியிட்டுள்ள பெருமை.",
+      descTa: "முன்னணி சர்வதேச எலும்பியல் மருத்துவ இதழ்களில் ஆய்வுக்வலைப்பதிவுகள் வெளியிட்டுள்ள பெருமை.",
       detailsEn: "Actively contributing to medical literature through peer-reviewed publications on robotic joint kinematics, advanced arthroplasty outcomes, and trauma management.",
       detailsDetailsTa: "சர்வதேச எலும்பியல் மருத்துவ இதழ்களில் ரோபோடிக் அறுவை சிகிச்சை பற்றிய ஆய்வுக்கட்டுரைகளை வெளியிட்டுள்ளார்."
     },

@@ -25,8 +25,8 @@ function Header() {
     { to: "/", en: "Home", ta: "முகப்பு" },
     { to: "/about", en: "About", ta: "மருத்துவர் பற்றி" },
     { to: "/facilities", en: "Specialities", ta: "சிகிச்சைகள்" },
-    { to: "/services", en: "Services", ta: "வீட்டு பராமரிப்பு" },
-    { to: "/blogs", en: "Blogs", ta: "கட்டுரைகள்" },
+    { to: "/services", en: "Services", ta: "சேவைகள்" },
+    { to: "/blogs", en: "Blogs", ta: "வலைப்பதிவுகள்" },
     { to: "/patient-stories", en: "Testimonials", ta: "சான்றுகள்" },
     { to: "/contact", en: "Contact", ta: "தொடர்பு" },
   ];

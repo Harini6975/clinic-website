@@ -20,7 +20,7 @@ export default function PatientStories() {
       nameEn: "K. Meenakshi",
       nameTa: "கே. மீனாட்சி",
       procedureEn: "Doorstep Mobile X-Ray & Home Care",
-      procedureTa: "வீட்டுக்கு வந்த எக்ஸ்-ரே & வீட்டு பராமரிப்பு",
+      procedureTa: "வீட்டுக்கு வந்த எக்ஸ்-ரே & சேவைகள்",
       reviewEn: "My mother couldn't travel due to severe hip fracture pain. The home visit and portable X-ray service provided by Sri Riddhi Clinic was an absolute blessing for our family.",
       reviewTa: "என் தாயாரால் நடக்க முடியாத நிலையில், வீட்டிற்கே வந்து எக்ஸ்-ரே எடுத்து பரிசோதித்த ஸ்ரீ ரித்தி கிளினிக் சேவைகளுக்கு மிக்க நன்றி."
     }

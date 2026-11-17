@@ -120,7 +120,7 @@ export default function Footer() {
 
               <li>
                 <Link className="transition hover:text-cyan-300" to="/blogs">
-                  {t("Blogs & Articles", "மருத்துவக் கட்டுரைகள்")}
+                  {t("Blogs & Articles", "மருத்துவக் வலைப்பதிவுகள்")}
                 </Link>
               </li>
 

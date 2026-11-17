@@ -57,15 +57,15 @@ export default function Blogs() {
       <section className="bg-slate-950 px-5 py-16 text-white sm:px-8 lg:py-20">
         <div className="mx-auto max-w-7xl">
           <p className="inline-block rounded-full bg-cyan-400/10 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-cyan-300">
-            {t("Clinical Knowledge Base", "மருத்துவக் கட்டுரைகள்")}
+            {t("Clinical Knowledge Base", "மருத்துவக் வலைப்பதிவுகள்")}
           </p>
           <h1 className="mt-4 max-w-3xl text-3xl font-extrabold leading-tight tracking-tight sm:text-5xl">
-            {t("Orthopedic Insights & Articles", "எலும்பியல் வழிகாட்டிகள் மற்றும் கட்டுரைகள்")}
+            {t("Orthopedic Insights & Articles", "எலும்பியல் வழிகாட்டிகள் மற்றும் வலைப்பதிவுகள்")}
           </h1>
           <p className="mt-4 max-w-2xl text-sm leading-relaxed text-slate-300 sm:text-base">
             {t(
               "Stay informed with expert advice on joint preservation, robotic surgery breakthroughs, and post-operative care by Dr. M. Kalaivanan.",
-              "டாக்டர் எம். கலைவாணன் அவர்களின் மூட்டு பாதுகாப்பு மற்றும் ரோபோடிக் அறுவை சிகிச்சை பற்றிய மருத்துவக் கட்டுரைகள்."
+              "டாக்டர் எம். கலைவாணன் அவர்களின் மூட்டு பாதுகாப்பு மற்றும் ரோபோடிக் அறுவை சிகிச்சை பற்றிய மருத்துவக் வலைப்பதிவுகள்."
             )}
           </p>
         </div>
